@@ -31,10 +31,6 @@ import com.ndsu.spark.GSO_Spark.Beans.GSOConfig;
 import com.ndsu.spark.GSO_Spark.Beans.Worm;
 import com.ndsu.spark.GSO_Spark.benchmark.GSOBenchmark;
 
-
-
-
-
 public class GSO_SparkMain {
 	
 	final static Logger logger = Logger.getLogger(GSO_SparkMain.class);
