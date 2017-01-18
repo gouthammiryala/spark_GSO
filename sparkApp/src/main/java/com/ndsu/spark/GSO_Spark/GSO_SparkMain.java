@@ -145,7 +145,7 @@ public class GSO_SparkMain {
 				//JavaRDD<Worm> firstMap = initialRDD.map(new GSOMapper1(gsoConfig, brCenters));
 				//initialRDD = firstMap.map(new GSOMapper2(gsoConfig));
 				
-				swarm = initialRDD.map(new GSOMapper1(gsoConfig, brCenters)).map(new GSOMapper1(gsoConfig, brCenters)).collect();
+				swarm = initialRDD.map(new GSOMapper1(gsoConfig, brCenters)).map(new GSOMapper2(gsoConfig)).collect();
 				//initialRDD = initialRDD.map(new GSOMapper2(gsoConfig));			
 				//swarm =initialRDD.collect();
 				
