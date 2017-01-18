@@ -1,4 +1,4 @@
-package com.ndsu.spark.GSO_Spark;
+package com.ndsu.spark.GSO_Spark.utils;
 
 public class GSOUtils {
 	

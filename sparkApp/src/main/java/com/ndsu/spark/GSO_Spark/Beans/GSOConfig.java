@@ -1,4 +1,7 @@
 package com.ndsu.spark.GSO_Spark.Beans;
+
+import java.io.Serializable;
+
 /**
  * 
  * @author Goutham
@@ -6,12 +9,12 @@ package com.ndsu.spark.GSO_Spark.Beans;
  * Expected to receive the values from a json either from an external source or local file
  *
  */
-public class GSOConfig {
+public class GSOConfig implements Serializable{
 	public int testRun;
 	public int swarmSize;
 	public int dimension;
 	public int maxIteration;
-	public int peaksNO;
+	public int peaksNo;
 
 	public String benchName;
 	public double p_const;
@@ -52,11 +55,11 @@ public class GSOConfig {
 	public void setMaxIteration(int maxIteration) {
 		this.maxIteration = maxIteration;
 	}
-	public int getPeaksNO() {
-		return peaksNO;
+	public int getPeaksNo() {
+		return peaksNo;
 	}
-	public void setPeaksNO(int peaksNO) {
-		this.peaksNO = peaksNO;
+	public void setPeaksNo(int peaksNo) {
+		this.peaksNo = peaksNo;
 	}
 	public String getBenchName() {
 		return benchName;
@@ -147,7 +150,7 @@ public class GSOConfig {
 	@Override
 	public String toString() {
 		return "Config [testRun=" + testRun + ", swarmSize=" + swarmSize + ", dimension=" + dimension
-				+ ", maxIteration=" + maxIteration + ", peaksNO=" + peaksNO + ", benchName=" + benchName + ", p_const="
+				+ ", maxIteration=" + maxIteration + ", peaksNO=" + peaksNo + ", benchName=" + benchName + ", p_const="
 				+ p_const + ", gamma=" + gamma + ", B=" + B + ", nt=" + nt + ", step=" + step + ", l0=" + l0 + ", r0="
 				+ r0 + ", rs=" + rs + ", pathy=" + pathy + ", noOfNOdes=" + noOfNOdes + ", maxReducersPerNode="
 				+ maxReducersPerNode + ", maxMappersPerNode=" + maxMappersPerNode + ", reducersThreshold="
