@@ -5,7 +5,6 @@ com\ndsu\spark\GSO_Spark\benchmark\Ackley.class
 com\ndsu\spark\GSO_Spark\benchmark\Alpine.class
 com\ndsu\spark\GSO_Spark\benchmark\EqualPeaksA.class
 com\ndsu\spark\GSO_Spark\benchmark\Peaks.class
-com\ndsu\spark\sparkApp\JavaSparkPi$2.class
 com\ndsu\spark\GSO_Spark\benchmark\Rastrigin.class
 com\ndsu\spark\sparkApp\TestReducer.class
 com\ndsu\spark\sparkApp\JavaSparkPi$1.class
@@ -14,8 +13,8 @@ com\ndsu\spark\sparkApp\JavaSparkPi.class
 com\ndsu\spark\sparkApp\TestMapper.class
 com\ndsu\spark\GSO_Spark\benchmark\GSOBenchmark.class
 com\ndsu\spark\sparkApp\App.class
-com\ndsu\spark\GSO_Spark\GSOUtils.class
 com\ndsu\spark\GSO_Spark\Beans\GSOConfig.class
 com\ndsu\spark\GSO_Spark\Beans\Worm.class
 com\ndsu\spark\sparkApp\Main.class
 com\ndsu\spark\GSO_Spark\benchmark\Schaffer.class
+com\ndsu\spark\sparkApp\JavaSparkPi$2.class

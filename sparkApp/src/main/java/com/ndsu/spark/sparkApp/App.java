@@ -1,16 +1,19 @@
 package com.ndsu.spark.sparkApp;
 
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.broadcast.Broadcast;
 
 import scala.Tuple2;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.Accumulator;
 import org.apache.spark.SparkConf;
 
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.LongAccumulator;
 
 /**
@@ -23,16 +26,16 @@ public class App
 		 
 	     //   get("/hello", (req, res) -> "Hello World");
 		 
-		 System.setProperty("hadoop.home.dir", "D:\\NDSU\\DrSimones Lab");
+		 System.setProperty("hadoop.home.dir", "D:\\NDSU\\DrSimones_Lab");
 		 SparkConf conf = new SparkConf().setAppName("testApp").setMaster("local");
 		// conf.s
 		 JavaSparkContext sc = new JavaSparkContext(conf);
 
 		 sc.hadoopConfiguration().set("dfs.nameservices","hadooptest");
 
-		 sc.hadoopConfiguration().set("dfs.namenode.name.dir", "file:/hadoop/data/dfs/namenode");
-		 sc.hadoopConfiguration().set("dfs.datanode.data.dir","file:/hadoop/data/dfs/datanode");
-		 sc.hadoopConfiguration().set("dfs.http.address","127.0.0.1:50070");
+//		 sc.hadoopConfiguration().set("dfs.namenode.name.dir", "file:/hadoop/data/dfs/namenode");
+//		 sc.hadoopConfiguration().set("dfs.datanode.data.dir","file:/hadoop/data/dfs/datanode");
+//		 sc.hadoopConfiguration().set("dfs.http.address","127.0.0.1:50070");
 		// sc.hadoopConfiguration().set("","");
 		// conf
 		 //conf.set("fs.default.name", "hdfs://127.0.0.1:9000"); 
@@ -43,6 +46,7 @@ public class App
 //		 
 //		 //		 int totalLength = distData.reduce((a,b) -> a - b);
 //		 JavaPairRDD<Integer, Integer> totalLength = testMapper.reduceByKey(new TestReducer());
+//		 System.out.println(distData.reduce(new TestReducer()));
 //		 
 //		 int test = distData.reduce(new TestReducer());
 //		 		// totalLength.aggregate(new TestReducer());
@@ -58,12 +62,20 @@ public class App
 //		 System.out.println("********************** count = "+totalLength.count());
 
 		// LongAccumulator n - 
-		  
-		 JavaRDD<String> lines = sc.textFile("hdfs://127.0.0.1:9000/testFiles/data.txt");
-//		 
-		 JavaPairRDD<String, Integer> pairs = lines.mapToPair(s -> new Tuple2(s, 1));
-		 JavaPairRDD<String, Integer> counts = pairs.reduceByKey(new TestReducer());
-		 System.out.println("counts.first()"+counts.first());
+		 Broadcast<String> brCenters = sc.broadcast("testing"); 
+		 JavaRDD<String> lines = sc.textFile("src/main/resources/data.txt");
+		 Accumulator<Integer> validSignCount = sc.accumulator(0);
+		 
+		 JavaPairRDD<String, Integer> pairs = lines.mapToPair(new TestMapper(brCenters));
+//		 sc.broadcast();
+		 //JavaRDD<Integer> pairs = lines.map(new TestMapper());
+//		 Map<String, Integer> t = pairs.reduceByKeyLocally(new TestReducer());
+		 Tuple2<String, Integer> totalLength = pairs.reduce(new TestReducer());
+//		 for (String value : t.keySet())
+//			 System.out.println(value);
+//		 System.out.println(t.values().toArray().toString());
+//		 JavaPairRDD<String, Integer> counts = pairs.reduceByKey(new TestReducer());
+//		 System.out.println("counts.first()"+counts.first());
 ////		 counts.saveAsTextFile("d:\\NDSU\\DrSimones Lab\\test\\test.txt");
 //		 //saveAsSequenceFile("d:\\test_seq.txt");
 //

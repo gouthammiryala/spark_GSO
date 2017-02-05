@@ -1,18 +1,51 @@
 package com.ndsu.spark.GSO_Spark.Beans;
 
+import java.io.Serializable;
+
 //package gsomapreduce;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
-public class Worm {
+public class Worm implements Serializable {
+	@Override
+	public String toString() {
+		return "Worm [id=" + id + ", position=" + Arrays.toString(position) + ", luc=" + luc + ", rd=" + rd + ", Jx="
+				+ Jx + ", neighbourWormsSize=" + neighbourWormsSize + ", neightbourWorm=" + neightbourWorm
+				+ ", wormNeighbors=" + wormNeighbors + "]";
+	}
+
 	int id;
 	double position[]; // / dimensions
 	double luc;
 	double rd;
 	double Jx;
+	int neighbourWormsSize;	
+	Worm neightbourWorm;
 	List<Worm> wormNeighbors; // /
+	
+	public Worm()
+	{
+		
+	}
+
+	public Worm(double position[], double luc, double rd, double Jx, int neighbourWormsSize){
+		this.position = position;
+		this.luc = luc;
+		this.rd = rd;
+		this.Jx = Jx;
+		this.neighbourWormsSize = neighbourWormsSize;
+		
+	}
+	public Worm getNeightbourWorm() {
+		return neightbourWorm;
+	}
+
+	public void setNeightbourWorm(Worm neightbourWorm) {
+		this.neightbourWorm = neightbourWorm;
+	}
 
 	public void setID(int j) {
 		id = j;
@@ -65,6 +98,14 @@ public class Worm {
 	public double getJx() {
 		return Jx;
 	}
+	public int getNeighbourWormSize() {
+		return neighbourWormsSize;
+	}
+
+	public void setNeighbourWormSize(int neighbourWormSize) {
+		this.neighbourWormsSize = neighbourWormSize;
+	}
+
 
 	public void printSwarm(Worm swarm[]) {
 		//		for (int i = 0; i < swarm.length; i++) {

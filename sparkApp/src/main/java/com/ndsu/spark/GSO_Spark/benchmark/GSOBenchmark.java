@@ -8,7 +8,16 @@ public class GSOBenchmark {
 	
 	public GSOBenchmark(String bench,double px[])
 	{
-		if(bench.compareTo("Alpine")==0)
+		
+		if(bench.compareTo("CF4")==0)
+		{
+			CF4 s=new CF4();
+			r=s.evaluate(px);
+			min=s.getMin();
+			max=s.getMax();
+			
+		}
+		else if(bench.compareTo("Alpine")==0)
 		{ //Alpine
 			Alpine s= new Alpine();
 			r=s.evaluate(px);
@@ -83,7 +92,15 @@ public class GSOBenchmark {
 	
 	public GSOBenchmark(String bench)
 	{
-		if(bench.compareTo("Rastrigin")==0)
+		if(bench.compareTo("CF4")==0)
+		{
+			CF4 s=new CF4();
+//			r=s.evaluate(px);
+			min=s.getMin();
+			max=s.getMax();
+			
+		}
+		else if(bench.compareTo("Rastrigin")==0)
 		{ //Alpine
 			Rastrigin s= new Rastrigin();
 			min=s.getMin();
@@ -140,7 +157,7 @@ public class GSOBenchmark {
 			max=s.getMax();
 			
 		}
-		
+				
 		
 	}
 	public double getMax() {

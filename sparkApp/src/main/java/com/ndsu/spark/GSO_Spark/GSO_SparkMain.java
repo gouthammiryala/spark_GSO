@@ -13,10 +13,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
@@ -38,7 +42,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.ndsu.spark.GSO_Spark.Beans.GSOConfig;
+import com.ndsu.spark.GSO_Spark.Beans.GSOConfigList;
 import com.ndsu.spark.GSO_Spark.Beans.Results;
 import com.ndsu.spark.GSO_Spark.Beans.Worm;
 import com.ndsu.spark.GSO_Spark.benchmark.GSOBenchmark;
@@ -46,35 +52,47 @@ import com.ndsu.spark.GSO_Spark.benchmark.GSOBenchmark;
 public class GSO_SparkMain {
 
 	final static Logger logger = Logger.getLogger(GSO_SparkMain.class);
+	private static HashMap<String, GSOConfig> gsoConfigMap;
 	private static GSOConfig gsoConfig;
+
 
 
 	public static void main(String args[]){
 		int iteration = 0;
 		try {
+			
+			logger.info("***********GSO Algorithm on Spark Started*****************");
 
-			System.setProperty("hadoop.home.dir", "D:\\NDSU\\DrSimones_Lab");
-			SparkConf sparkConf = new SparkConf().setAppName("testApp").setMaster("local");
-			String peaksFile="D:\\NDSU\\GSO_MapReduce\\config\\peaksfilej6";
-			// conf.s
+			gsoConfigMap = initialize();
+			gsoConfig = gsoConfigMap.get("config1");
+			
+			
+			logger.info("Using the following configuration for this execution: "+gsoConfig);
+
+			//System.setProperty("hadoop.home.dir", "D:\\NDSU\\DrSimones_Lab");
+			SparkConf sparkConf = new SparkConf().setAppName("GSO_Spark");//.setMaster(gsoConfig.getSparkMaster());
 			JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
 
 			sc.hadoopConfiguration().set("dfs.nameservices","hadooptest");
 
 			String log4jConfigFile = System.getProperty("user.dir")
-					+ File.separator + "\\src\\resources\\log4j.properties";
+					+ File.separator + "resources/log4j.properties";
 			PropertyConfigurator.configure(log4jConfigFile);
-			logger.info("***********GSO Algorithm on Spark Started*****************");
-			gsoConfig = initialize();
+			
+			
+			
+			
+			String peaksFile="resources/peaksfileCF4D"+gsoConfig.getDimension()+".txt";
+
 			List<Worm> swarm = createInitialSwarm(gsoConfig.getSwarmSize(), gsoConfig.getDimension());
 			
 			double [][] peaks=new double[gsoConfig.getPeaksNo()][gsoConfig.getDimension()];
 			peaks = readsPeaks(peaksFile,peaks);
 			
-			String outputDirectories = "src/main/output" + "/" + gsoConfig.getBenchName() +"dim"+gsoConfig.getDimension() +"rs"
+			String outputDirectories = "output" + "/" + gsoConfig.getBenchName() +"dim"+gsoConfig.getDimension() +"rs"
 					+ gsoConfig.getRs() + "it" + gsoConfig.getMaxIteration() + "ssize"
-					+ gsoConfig.getSwarmSize() +"noNodes"+gsoConfig.getNoOfNOdes() +"_" ;
+					+ gsoConfig.getSwarmSize() +"noNodes"+gsoConfig.getNoOfNOdes() +"_"+new SimpleDateFormat("MM_dd_yyyy_h_m_s").format(new Date()) ;
 			
 			boolean success = (new File(outputDirectories)).mkdirs();
 			if (success) {
@@ -89,26 +107,26 @@ public class GSO_SparkMain {
 			GSOBenchmark bench;
 			for (Worm worm : swarm) {
 				bench = new GSOBenchmark(gsoConfig.getBenchName(), worm.getposition());
-				//	double Jx = bench.getr();
+					double Jx = bench.getr();
 				worm.setJx(bench.getr());
-				//				double l = (1 - Settings.p_const) * swarm[i].getluc()
-				//						+ Settings.Gama * swarm[i].getJx();
+								double l = (1 - gsoConfig.getP_const()) * worm.getluc()
+										+ gsoConfig.getGamma() * worm.getJx();
 				worm.setluc((1 - gsoConfig.getP_const()) * worm.getluc()
 						+ gsoConfig.getGamma() * worm.getJx());
 			}
 
 			Configuration conf = new Configuration();
 
-			conf.set("fs.default.name", "hdfs://127.0.0.1:9000"); //local file system
+//			conf.set("fs.default.name", "hdfs://127.0.0.1:9000"); //local file system
 
-			String swarmInFolder = gsoConfig.getPathy() + "files/t_" + (iteration);
-			FileSystem fs = FileSystem.get(conf);
-			fs.delete(new Path(swarmInFolder), true);
-
-			fs.mkdirs(new Path(swarmInFolder));
-			String swarmInFile = swarmInFolder + "/swarm0";
-			conf.set("swarm.file", "" + swarmInFile);
-			writeSwarmwithoutnb(swarm, swarmInFile, conf);
+//			String swarmInFolder = gsoConfig.getPathy() + "files/t_" + (iteration);
+//			FileSystem fs = FileSystem.get(conf);
+//			fs.delete(new Path(swarmInFolder), true);
+//
+//			fs.mkdirs(new Path(swarmInFolder));
+//			String swarmInFile = swarmInFolder + "/swarm0";
+//			conf.set("swarm.file", "" + swarmInFile);
+//			writeSwarmwithoutnb(swarm, swarmInFile, conf);
 			
 			Results[] result = new Results[gsoConfig.getDimension()];
 			double [][] resultPerIteration=new
@@ -126,7 +144,7 @@ public class GSO_SparkMain {
 			FileWriter fstream2 = new
 					FileWriter(outputDirectories+"/avgdist.txt");
 			BufferedWriter outavgdist = new BufferedWriter(fstream2);
-
+ 
 
 			FileWriter fstream3 = new
 					FileWriter(outputDirectories+"/timeinfo.txt");
@@ -167,7 +185,7 @@ public class GSO_SparkMain {
 				outpeakcapture.write(iteration+"\t"+crate+"\n");
 				outtime.write(iteration+"\t"+diff+"\n"); 
 				outpeakcapture.flush();
-				outavgdist.flush();
+ 				outavgdist.flush();
 				outtime.flush();
 				iteration++;
 			}
@@ -184,8 +202,7 @@ public class GSO_SparkMain {
 				 outavgdist.close();
 				 outtime.close();
 			}
-
-			
+	
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -197,9 +214,9 @@ public class GSO_SparkMain {
 
 	//TODO
 	//Deletion of this method is required later
-	private static GSOConfig initialize() throws JsonSyntaxException, JsonIOException, IOException{
+	private static HashMap<String, GSOConfig> initialize() throws JsonSyntaxException, JsonIOException, IOException{
 		String sLine = "";
-		try (BufferedReader br = new BufferedReader(new FileReader("D:\\NDSU\\DrSimones_Lab\\spark_GSO\\config.json"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("resources/config.json"))) {
 
 			String sCurrentLine;
 
@@ -220,10 +237,12 @@ public class GSO_SparkMain {
 	 * @throws JsonSyntaxException 
 	 * @throws IOException 
 	 */
-	private static GSOConfig initialize(String json) throws JsonSyntaxException, JsonIOException, IOException{
+	private static HashMap<String, GSOConfig> initialize(String json) throws JsonSyntaxException, JsonIOException, IOException{
+		Type type = new TypeToken<HashMap<String, GSOConfig>>(){}.getType();
+
 		Gson gson = new Gson();
-		GSOConfig config = gson.fromJson(json, GSOConfig.class);		
-		return (config);
+		HashMap<String, GSOConfig>  configMap= gson.fromJson(json, type);		
+		return (configMap);
 
 
 	}

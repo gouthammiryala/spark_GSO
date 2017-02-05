@@ -10,26 +10,43 @@ import java.io.Serializable;
  *
  */
 public class GSOConfig implements Serializable{
-	public int testRun;
-	public int swarmSize;
-	public int dimension;
-	public int maxIteration;
-	public int peaksNo;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	public String benchName;
-	public double p_const;
-	public double gamma;
-	public double B;
-	public double nt;
-	public double step;
-	public double l0;
-	public double r0;
-	public double rs;
-	public String pathy;;
-	public int noOfNOdes;
-	public int maxReducersPerNode;
-	public int maxMappersPerNode;
-	public double reducersThreshold;
+	private String sparkMaster;
+	
+	private int testRun;
+	private int swarmSize;
+	private int dimension;
+	private int maxIteration;
+	private int peaksNo;
+
+	private String benchName;
+	private double p_const;
+	private double gamma;
+	private double B;
+	private double nt;
+	private double step;
+	private double l0;
+	private double r0;
+	private double rs;
+	private String pathy;;
+	private int noOfNOdes;
+	private int maxReducersPerNode;
+	private int maxMappersPerNode;
+	private double reducersThreshold;
+	
+	public String getSparkMaster() {
+		return sparkMaster;
+	}
+	public void setSparkMaster(String sparkMaster) {
+		this.sparkMaster = sparkMaster;
+	}
+
+
 	
 	public int getTestRun() {
 		return testRun;
@@ -149,11 +166,11 @@ public class GSOConfig implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "Config [testRun=" + testRun + ", swarmSize=" + swarmSize + ", dimension=" + dimension
-				+ ", maxIteration=" + maxIteration + ", peaksNO=" + peaksNo + ", benchName=" + benchName + ", p_const="
-				+ p_const + ", gamma=" + gamma + ", B=" + B + ", nt=" + nt + ", step=" + step + ", l0=" + l0 + ", r0="
-				+ r0 + ", rs=" + rs + ", pathy=" + pathy + ", noOfNOdes=" + noOfNOdes + ", maxReducersPerNode="
-				+ maxReducersPerNode + ", maxMappersPerNode=" + maxMappersPerNode + ", reducersThreshold="
-				+ reducersThreshold + "]";
+		return "GSOConfig [sparkMaster=" + sparkMaster + ", testRun=" + testRun + ", swarmSize=" + swarmSize
+				+ ", dimension=" + dimension + ", maxIteration=" + maxIteration + ", peaksNo=" + peaksNo
+				+ ", benchName=" + benchName + ", p_const=" + p_const + ", gamma=" + gamma + ", B=" + B + ", nt=" + nt
+				+ ", step=" + step + ", l0=" + l0 + ", r0=" + r0 + ", rs=" + rs + ", pathy=" + pathy + ", noOfNOdes="
+				+ noOfNOdes + ", maxReducersPerNode=" + maxReducersPerNode + ", maxMappersPerNode=" + maxMappersPerNode
+				+ ", reducersThreshold=" + reducersThreshold + "]";
 	}
 }
