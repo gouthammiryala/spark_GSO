@@ -1,0 +1,62 @@
+###################################################################################################
+#
+# Config file for MRGPSO                                                                      
+#                                                                                                
+###################################################################################################
+
+# int testrun 
+1
+
+# int SWARM_SIZE
+100
+
+# int DIMENSION
+2
+
+# int MAX_ITERATION
+20
+
+# int peaksno
+8
+
+# Sting benchName
+CF4
+
+# double p_const
+0.4
+
+#double Gama
+0.6
+
+# double B
+0.08
+
+# int nt
+5.0
+
+# double step
+0.03
+
+# double l0
+5.0
+
+# double r0
+0.6
+
+# double rs
+0.6
+
+# String pathy
+input/
+
+# int nodes
+1
+
+# int maxReducers/Node
+1
+
+# int maxMappers/Node
+1
+
+# double reducersThreshold
+0.5

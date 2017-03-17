@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.broadcast.Broadcast;
@@ -32,6 +33,8 @@ public class GSOMapper1 implements Function<Worm, Worm>{
 	public Worm call(Worm worm) throws Exception {
 		//Calculating Euclidian distance between the given worm and all the other worms in swarm
 		//to find neighbors of the given worm
+	//	logger.setLevel(Level.DEBUG);
+		logger.debug("************worm: "+worm.getID());
 		
 		List<Worm> neighborWorms = new ArrayList<Worm>();
 		for (Worm wormInSwarm : swarm){			

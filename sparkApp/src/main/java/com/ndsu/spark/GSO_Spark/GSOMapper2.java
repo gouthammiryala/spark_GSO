@@ -1,9 +1,12 @@
 package com.ndsu.spark.GSO_Spark;
 
-import java.util.List;
 
+//import java.util.List;
+//
+//import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.broadcast.Broadcast;
+//import org.apache.spark.util.AccumulatorV2;
 
 import com.ndsu.spark.GSO_Spark.Beans.GSOConfig;
 import com.ndsu.spark.GSO_Spark.Beans.Worm;
@@ -11,14 +14,30 @@ import com.ndsu.spark.GSO_Spark.benchmark.GSOBenchmark;
 
 public class GSOMapper2 implements Function<Worm, Worm>{
 	
-	private GSOConfig gsoConfig;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	public GSOMapper2(GSOConfig gsoConfig){
+	final static Logger logger = Logger.getLogger(GSOMapper2.class);
+
+	private GSOConfig gsoConfig;
+	private GSOBenchmark gsoBenchmark;
+//	AccumulatorV2<Worm, List<Worm>> acSwarm;
+	
+	public GSOMapper2(GSOConfig gsoConfig, GSOBenchmark gsoBenchmark){
 		this.gsoConfig = gsoConfig;
+		this.gsoBenchmark = gsoBenchmark;
+//		this.acSwarm = acSwarm;
+		
 	}
 
 	@Override
 	public Worm call(Worm worm) throws Exception {
+		//logger.setLevel(Level.DEBUG);
+
+//		logger.debug("************worm: "+worm.getID());
+
 		Worm newworm = worm;
 		Worm tmp = worm.getNeightbourWorm();
 		double nbsize = 0;
@@ -51,12 +70,13 @@ public class GSOMapper2 implements Function<Worm, Worm>{
 
 		}
 
-		GSOBenchmark bench = new GSOBenchmark(gsoConfig.getBenchName(), newworm.getposition()); 
-		double Jx = bench.getr();
+		//GSOBenchmark bench = new GSOBenchmark(gsoConfig.getBenchName(), newworm.getposition()); 
+		double Jx = gsoBenchmark.evaluate(newworm.getposition());
 		newworm.setJx(Jx);
 		double l = (1 - gsoConfig.getP_const()) * newworm.getluc() + gsoConfig.getGamma() * newworm.getJx();
 		newworm.setluc(l);
 
+//		acSwarm.add(newworm);
 		return newworm;
 	}
 

@@ -1,5 +1,0 @@
-abc1
-def2
-ghi3
-jkl4
-mno5

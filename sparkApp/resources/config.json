@@ -1,11 +1,12 @@
      
 	{"config1":
 	{
+		"sparkMaster":"local[4]",
         "benchName": "CF4",
         "testRun": 1,
-        "swarmSize": 6000,
+        "swarmSize": 10000,
 		"dimension":2,
-		"maxIteration":200,
+		"maxIteration":10,
 		"peaksNo":8,
 		"p_const":0.4,
 		"gamma":0.6,

@@ -1,13 +1,12 @@
-package com.ndsu.spark.GSO_Spark.benchmark;
+package benchmark;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.io.Serializable;
 
-public class CF4 implements GSOBenchmark, Serializable {
+public class CF4 {
 
 	private double min = -5.0;
 	private double max = 5.0;
@@ -34,8 +33,8 @@ public class CF4 implements GSOBenchmark, Serializable {
 		lambda_ = new double[nofunc_];
 		sigma_  = new double[nofunc_];
 		bias_   = new double[nofunc_];
-	//	O_  	= new double[nofunc_][dim];
-//		M_		= new double[nofunc_][dim][dim];
+		O_  	= new double[nofunc_][dim];
+		M_		= new double[nofunc_][dim][dim];
 		weight_ = new double[nofunc_];
 		fi_ 	= new double[nofunc_];
 		z_  	= new double[dim];
@@ -43,22 +42,6 @@ public class CF4 implements GSOBenchmark, Serializable {
 		tmpx_   = new double[dim];
 	}
 	
-	public double[][] getO_() {
-		return O_;
-	}
-
-	public void setO_(double[][] o_) {
-		O_ = o_;
-	}
-
-	public double[][][] getM_() {
-		return M_;
-	}
-
-	public void setM_(double[][][] m_) {
-		M_ = m_;
-	}
-
 	public double evaluate(double position[]) {
 		//for (int i=0; i<position.length; ++i) {
 		//	System.out.print(" p: "+position[i]);
@@ -94,13 +77,13 @@ public class CF4 implements GSOBenchmark, Serializable {
 		
 		/* funcs_.add(new FRastrigin(boundsFn) );*/
 		
-	   // String fname;
-	  //  fname = "resources/data/CF4_M_D" + position.length + "_opt.dat";
+	    String fname;
+	    fname = "mrresources/data/CF4_M_D" + position.length + "_opt.dat";
 //	    fname = "data/CF4_M_D" + position.length + "_opt.dat";
-//        loadOptima(fname,position.length);
-	//    fname = "resources/data/CF4_M_D" + position.length + ".dat";
+        loadOptima(fname,position.length);
+	    fname = "mrresources/data/CF4_M_D" + position.length + ".dat";
 //	    fname = "data/CF4_M_D" + position.length + ".dat";
-//	    loadRotationMatrix(fname,position.length);
+	    loadRotationMatrix(fname,position.length);
 	    
 	  //  System.out.println("=============================");
 	    CalculateFMaxi(position.length);
