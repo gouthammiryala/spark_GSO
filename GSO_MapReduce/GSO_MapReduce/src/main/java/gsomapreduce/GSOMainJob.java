@@ -1,7 +1,7 @@
 package gsomapreduce;
 
 import java.io.*;
-
+import java.lang.reflect.Type;
 import java.util.*;
 
 import org.apache.commons.logging.Log;
@@ -23,6 +23,12 @@ import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+
 import org.apache.hadoop.mapreduce.Job;
 ///ort org.apache.hadoop.mapreduce.lib.input.FileInputFormat; split remove it use b\new one
 //import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
@@ -31,26 +37,29 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import benchmark.benchmark;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 public class GSOMainJob {
 	private static final Log LOG = LogFactory.getLog(GSOMainJob.class);
 	private static DecimalFormat twoDForm = new DecimalFormat("#.##");
 	static worm globalMAXworm = new worm();
 	static worm globalMINworm = new worm();
+	
+	private static Settings settings;
 
 	public static worm[] initial(worm swarm[]) {
 		Random aRandom = new Random();
 		benchmark bench;
-		bench = new benchmark(Settings.benchName);
+		bench = new benchmark(settings.getBenchName());
 		double aStart = bench.getMin();
 		double aEnd = bench.getMax();
 		double range = (double) aEnd - (double) aStart;
 
-		for (int i = 0; i < Settings.SWARM_SIZE; i++) {
+		for (int i = 0; i < settings.getSwarmSize(); i++) {
 			swarm[i] = new worm();
 			// random position
-			double position[] = new double[Settings.DIMENSION];
-			for (int a = 0; a < Settings.DIMENSION; a++) {
+			double position[] = new double[settings.getDimension()];
+			for (int a = 0; a < settings.getDimension(); a++) {
 				double fraction = (double) (range * aRandom.nextDouble());
 				double randomNumber = (double) (fraction + aStart);
 				position[a] = randomNumber;
@@ -59,8 +68,8 @@ public class GSOMainJob {
 			// System.out.println();
 			swarm[i].setID(i);
 			swarm[i].setPosition(position);
-			swarm[i].setluc(Settings.l0);
-			swarm[i].setRd(Settings.r0);
+			swarm[i].setluc(settings.getL0());
+			swarm[i].setRd(settings.getR0());
 
 		}
 		return swarm;
@@ -71,12 +80,12 @@ public class GSOMainJob {
 
 		double PositionJ[] = w.getposition();
 		// System.out.println(w.getID());
-		for (int x = 0; x < Settings.SWARM_SIZE; x++) {
+		for (int x = 0; x < settings.getSwarmSize(); x++) {
 			double distance, sum = 0;
 			if (swarm[x].getID() != w.getID()) {
 				// System.out.println(swarm[x].getID()+" "+w.getID());
 				double PositionI[] = swarm[x].getposition();
-				for (int a = 0; a < Settings.DIMENSION; a++) {
+				for (int a = 0; a < settings.getDimension(); a++) {
 					sum = sum + Math.pow(PositionI[a] - PositionJ[a], 2);
 				}
 
@@ -92,10 +101,10 @@ public class GSOMainJob {
 
 	private static void printnb(List<worm> wormNeighbors) {
 		for (int i = 0; i < wormNeighbors.size(); i++) {
-			double position[] = new double[Settings.DIMENSION];
+			double position[] = new double[settings.getDimension()];
 			position = wormNeighbors.get(i).getposition();
 //SL			System.out.println("n" + wormNeighbors.get(i).getID() + "\t");
-			for (int a = 0; a < Settings.DIMENSION; a++) {
+			for (int a = 0; a < settings.getDimension(); a++) {
 //SL				System.out.print("P" + a + ": " + position[a] + "\t");
 			}
 //SL			System.out.print("Luc:" + wormNeighbors.get(i).getluc() + "\t");
@@ -105,11 +114,11 @@ public class GSOMainJob {
 	}
 
 	private static void printSwarm(worm swarm[]) {
-		for (int i = 0; i < Settings.SWARM_SIZE; i++) {
-			double position[] = new double[Settings.DIMENSION];
+		for (int i = 0; i < settings.getSwarmSize(); i++) {
+			double position[] = new double[settings.getDimension()];
 			position = swarm[i].getposition();
 //SL			System.out.print("W" + i + "\t");
-			for (int a = 0; a < Settings.DIMENSION; a++) {
+			for (int a = 0; a < settings.getDimension(); a++) {
 //SL				System.out.print("P" + a + ": " + position[a] + "\t");
 			}
 //SL			System.out.print("Jx:" + swarm[i].getJx() + "\t");
@@ -125,13 +134,13 @@ public class GSOMainJob {
 		Path outPath = new Path(fileNameOut);
 		fs.delete(outPath, true);
 		FSDataOutputStream outy = fs.create(outPath);
-		for (int i = 0; i < Settings.SWARM_SIZE; i++) {
+		for (int i = 0; i < settings.getSwarmSize(); i++) {
 			outy.writeBytes(i + "\t");
 			String st = "";
-			for (int w = 0; w < Settings.DIMENSION - 1; w++) {
+			for (int w = 0; w < settings.getDimension() - 1; w++) {
 				st = st + (swarm[i].getposition()[w] + ",");
 			}
-			st = st + (swarm[i].getposition()[Settings.DIMENSION - 1] + ";");
+			st = st + (swarm[i].getposition()[settings.getDimension() - 1] + ";");
 			st = st + (swarm[i].getJx() + ";");
 			st = st + (swarm[i].getluc() + ";");
 			st = st + (swarm[i].getRd() + ";");
@@ -139,12 +148,12 @@ public class GSOMainJob {
 			st = st + (swarm[i].getwormNeighbors().size() + ";");
 			for (int w = 0; w < swarm[i].getwormNeighbors().size(); w++) {
 				st = st + (swarm[i].getwormNeighbors().get(w).getID() + ";");
-				for (int j = 0; j < Settings.DIMENSION - 1; j++) {
+				for (int j = 0; j < settings.getDimension() - 1; j++) {
 					st = st
 							+ (swarm[i].getwormNeighbors().get(w).getposition()[j] + ",");
 				}
 				st = st
-						+ (swarm[i].getwormNeighbors().get(w).getposition()[Settings.DIMENSION - 1] + ";");
+						+ (swarm[i].getwormNeighbors().get(w).getposition()[settings.getDimension() - 1] + ";");
 				st = st + (swarm[i].getwormNeighbors().get(w).getJx() + ";");
 				st = st + (swarm[i].getwormNeighbors().get(w).getluc() + ";");
 				st = st + (swarm[i].getwormNeighbors().get(w).getRd() + ";");
@@ -163,13 +172,13 @@ public class GSOMainJob {
 		Path outPath = new Path(fileNameOut);
 		fs.delete(outPath, true);
 		FSDataOutputStream outy = fs.create(outPath);
-		for (int i = 0; i < Settings.SWARM_SIZE; i++) {
+		for (int i = 0; i < settings.getSwarmSize(); i++) {
 			outy.writeBytes(i + "\t");
 			String st = "";
-			for (int w = 0; w < Settings.DIMENSION - 1; w++) {
+			for (int w = 0; w < settings.getDimension() - 1; w++) {
 				st = st + (swarm[i].getposition()[w] + ",");
 			}
-			st = st + (swarm[i].getposition()[Settings.DIMENSION - 1] + ";");
+			st = st + (swarm[i].getposition()[settings.getDimension() - 1] + ";");
 			st = st + (swarm[i].getJx() + ";");
 			st = st + (swarm[i].getluc() + ";");
 			st = st + (swarm[i].getRd() + ";");
@@ -183,7 +192,7 @@ public class GSOMainJob {
 
 	private static worm[] readSwarm(String fileNameIn, Configuration conf)
 			throws IOException {
-		worm swarm[] = new worm[Settings.SWARM_SIZE];
+		worm swarm[] = new worm[settings.getSwarmSize()];
 
 		FileSystem fs = FileSystem.get(conf);
 		Path result = new Path(fileNameIn);
@@ -205,10 +214,10 @@ public class GSOMainJob {
 						int wind = Integer.parseInt(keyAndValue[0]);
 						swarm[wind] = new worm();
 						swarm[wind].setID(Integer.parseInt(keyAndValue[0]));
-						String[] line = keyAndValue[1].split(";");
+						String[] line = keyAndValue[1].toString().split(";");
 						String[] linepos = line[0].toString().split(",");
-						double[] pos = new double[Settings.DIMENSION];
-						for (int k = 0; k < Settings.DIMENSION; k++) {
+						double[] pos = new double[settings.getDimension()];
+						for (int k = 0; k < settings.getDimension(); k++) {
 							pos[k] = Double.parseDouble(linepos[k]);
 						}
 						swarm[wind].setPosition(pos);
@@ -228,8 +237,8 @@ public class GSOMainJob {
 	}
 
 	private static void fill(worm swarm[], int it, Results[] result) {
-		for (int i = 0; i < Settings.DIMENSION; i++) {
-			for (int j = 0; j < Settings.SWARM_SIZE; j++) {
+		for (int i = 0; i < settings.getDimension(); i++) {
+			for (int j = 0; j < settings.getSwarmSize(); j++) {
 				result[i].setval(j, it, swarm[j].getposition()[i]);
 			}
 		}
@@ -237,8 +246,8 @@ public class GSOMainJob {
 
 	private static void fillresultPerIteration(worm swarm[],
 			double[][] resultPerIteration) {
-		for (int i = 0; i < Settings.SWARM_SIZE; i++) {
-			for (int j = 0; j < Settings.DIMENSION; j++) {
+		for (int i = 0; i < settings.getSwarmSize(); i++) {
+			for (int j = 0; j < settings.getDimension(); j++) {
 				resultPerIteration[i][j] = swarm[i].getposition()[j];
 
 			}
@@ -248,16 +257,16 @@ public class GSOMainJob {
 	private static void writeResults(String outputDirectories, Results[] result)
 			throws IOException {
 
-		for (int k = 0; k < Settings.DIMENSION; k++) {
+		for (int k = 0; k < settings.getDimension(); k++) {
 
 			FileWriter fstreamX = new FileWriter(outputDirectories + "/d" + k);
 			BufferedWriter outX = new BufferedWriter(fstreamX);
-			for (int i = 0; i < Settings.SWARM_SIZE; i++) {
+			for (int i = 0; i < settings.getSwarmSize(); i++) {
 				String rowX = "";
-				for (int a = 0; a < Settings.MAX_ITERATION - 1; a++) {
+				for (int a = 0; a < settings.getMaxIteration() - 1; a++) {
 					rowX = rowX + result[k].getval(i, a) + ",";
 				}
-				rowX = rowX + result[k].getval(i, Settings.MAX_ITERATION - 1);
+				rowX = rowX + result[k].getval(i, settings.getMaxIteration() - 1);
 				outX.write(rowX + "\n");
 
 			}
@@ -281,7 +290,7 @@ public class GSOMainJob {
 		System.out.println("MIN Jx= " + globalworm.getJx()
 				+ " Exist at iteration:" + globalworm.getID());
 		System.out.print("Position: ");
-		for (int z = 0; z < Settings.DIMENSION; z++) {
+		for (int z = 0; z < settings.getDimension(); z++) {
 			System.out
 					.print("D" + z + ": " + globalworm.getposition()[z] + " ");
 		}
@@ -304,7 +313,7 @@ public class GSOMainJob {
 		System.out.println("MAX Jx= " + globalworm.getJx()
 				+ " Exist at iteration:" + globalworm.getID());
 		System.out.print("Position: ");
-		for (int z = 0; z < Settings.DIMENSION; z++) {
+		for (int z = 0; z < settings.getDimension(); z++) {
 			System.out
 					.print("D" + z + ": " + globalworm.getposition()[z] + " ");
 		}
@@ -327,7 +336,7 @@ public class GSOMainJob {
 				// Print the content on the console
 			   
 				 
-				for (int i = 0; i < Settings.DIMENSION; i++) {
+				for (int i = 0; i < settings.getDimension(); i++) {
 				//	System.out.println("before fill peaks ");
 					peaks[sc][i] = Double.parseDouble(cont[i]);
 				//	System.out.println(">>>> "+peaks[sc][i] );
@@ -341,14 +350,27 @@ public class GSOMainJob {
 	public static void main(String[] args) throws IOException,
 			InterruptedException, ClassNotFoundException {
 
-		String configFile = "mrresources/config.txt";//args[0];// "config.txt";
-	    String peaksFile="mrresources/peaksfileCF4D2.txt";//"peaksFile.txt";
-		Settings settings = new Settings(configFile);
+		String configFile = "resources/config.json";//args[0];// "config.txt";
+	   
+	    if (args.length != 2)
+	    {
+	    	throw new IllegalArgumentException("\nNumber of arguments should be 2: "
+	    			+ "\n1. Config \n2. Numberofnodes");
+	    }
+	    
+	    initialize(configFile, args[0]);
+	    settings.setNoOfNOdes(Integer.parseInt(args[1]));
+		System.out.println(settings);
+
+	    
+		//Settings settings = new Settings(configFile);
+	    String peaksFile="resources/peaksfileCF4D"+ settings.getDimension() + ".txt";//"peaksFile.txt";
 		settings.getClass();
 
-		String outputDirectories = "mrout" + "/" + settings.benchName +"dim"+settings.DIMENSION +"rs"
-				+ settings.rs + "it" + settings.MAX_ITERATION + "ssize"
-				+ settings.SWARM_SIZE +"noNodes"+settings.noOfNOdes +"_" + (int)(Math.random()*100);
+		String outputDirectories = "mrout" + "/" + settings.getBenchName() +"dim"+settings.getDimension() +"rs"
+				+ settings.getRs() + "it" + settings.getMaxIteration() + "ssize"
+				+ settings.getSwarmSize() +"noNodes"+settings.getNoOfNOdes() +"_" 
+				+ new SimpleDateFormat("MM_dd_yyyy_h_m_s").format(new Date());
 
 		boolean success = (new File(outputDirectories)).mkdirs();
 		if (success) {
@@ -356,31 +378,31 @@ public class GSOMainJob {
 					.println("Directories: " + outputDirectories + " created");
 		}
 
-		worm swarm1[] = new worm[settings.SWARM_SIZE];
-		worm swarm[] = new worm[settings.SWARM_SIZE];
+		worm swarm1[] = new worm[settings.getSwarmSize()];
+		worm swarm[] = new worm[settings.getSwarmSize()];
 		double start = System.currentTimeMillis();
 		double startsubtime = System.currentTimeMillis();
 		double sumdiff = 0;
 
 		swarm = initial(swarm1);
 		printSwarm(swarm);
-		 double [][] peaks=new double[settings.peaksNO][settings.DIMENSION];
+		 double [][] peaks=new double[settings.getPeaksNO()][settings.getDimension()];
 		 readsPeaks(peaksFile,peaks);
 		benchmark bench;
-		for (int i = 0; i < Settings.SWARM_SIZE; i++) {
-			bench = new benchmark(Settings.benchName, swarm[i].getposition());
+		for (int i = 0; i < settings.getSwarmSize(); i++) {
+			bench = new benchmark(settings.getBenchName(), swarm[i].getposition());
 			double Jx = bench.getr();
 			swarm[i].setJx(Jx);
-			double l = (1 - Settings.p_const) * swarm[i].getluc()
-					+ Settings.Gama * swarm[i].getJx();
+			double l = (1 - settings.getP_const()) * swarm[i].getluc()
+					+ settings.getGamma() * swarm[i].getJx();
 			swarm[i].setluc(l);
 		}
 
 		int iteration = 0;
 		Configuration conf = new Configuration();
 
-		// conf.set("fs.default.name", "file:///"); //local file system
-//		 conf.set("mapred.job.tracker","local"); //local tracker
+//		 conf.set("fs.default.name", "hdfs://127.0.0.1:9000"); //local file system
+//		 conf.set("mapred.job.tracker","yarn"); //local tracker
 		// conf.set("io.sort.factor","20");
 		// conf.set("io.sort.mb","200");
 		// conf.set("io.sort.record.percent","0.15");
@@ -393,19 +415,19 @@ public class GSOMainJob {
 		// "org.apache.hadoop.io.compress.DefaultCodec");
 		// conf.set("mapred.child.java.opts","-Xmx3048M");
 
-		conf.set("worm.dim", "" + settings.DIMENSION); // dimensions
-		conf.set("swarm.size", "" + settings.SWARM_SIZE); // swarm size
-		conf.set("p", "" + settings.p_const);
-		conf.set("gama", "" + settings.Gama);
-		conf.set("B", "" + settings.B);
-		conf.set("nt", "" + settings.nt);
-		conf.set("step", "" + settings.step);
-		conf.set("l0", "" + settings.l0);
-		conf.set("r0", "" + settings.r0);
-		conf.set("rs", "" + settings.rs);
-		conf.set("benchName", "" + settings.benchName);
+		conf.set("worm.dim", "" + settings.getDimension()); // dimensions
+		conf.set("swarm.size", "" + settings.getSwarmSize()); // swarm size
+		conf.set("p", "" + settings.getP_const());
+		conf.set("gama", "" + settings.getGamma());
+		conf.set("B", "" + settings.getB());
+		conf.set("nt", "" + settings.getNt());
+		conf.set("step", "" + settings.getStep());
+		conf.set("l0", "" + settings.getL0());
+		conf.set("r0", "" + settings.getR0());
+		conf.set("rs", "" + settings.getRs());
+		conf.set("benchName", "" + settings.getBenchName());
 
-		String swarmInFolder = settings.pathy + "files/t_" + (iteration);
+		String swarmInFolder = settings.getPathy() + "files/t_" + (iteration);
 		FileSystem fs = FileSystem.get(conf);
 		fs.delete(new Path(swarmInFolder), true);
 
@@ -417,15 +439,15 @@ public class GSOMainJob {
 		writeSwarmwithoutnb(swarm, swarmInFile, conf);
 		System.out.println("done2");
 
-		Path InFile = new Path(settings.pathy + "files/t_" + (iteration) + "/");
-		Path outFile = new Path(settings.pathy + "files/t_" + (iteration + 1)
+		Path InFile = new Path(settings.getPathy() + "files/t_" + (iteration) + "/");
+		Path outFile = new Path(settings.getPathy() + "files/t_" + (iteration + 1)
 				+ "/");
 		fs.delete(outFile, true);
 
 		Job job = new Job(conf);
 		job.setJobName("GSO" + iteration);
 		long lenth = fs.getContentSummary(InFile).getLength();
-		long splitSize = lenth / (settings.noOfNOdes * settings.maxMappers);
+		long splitSize = lenth / (settings.getNoOfNOdes());
 		FileInputFormat.setMaxInputSplitSize(job, (splitSize));
 
 		job.setMapperClass(GSOMapper.class);
@@ -439,156 +461,156 @@ public class GSOMainJob {
 		job.setJarByClass(GSOMainJob.class);
 
 		// the job using just the MAPPER function.
-		job.setNumReduceTasks(settings.maxReducers);
+		job.setNumReduceTasks(1);
 		// job.setNumReduceTasks(0);
 		System.out.println("*IBRAHIM: ****JOB1 START****");
 
 		job.waitForCompletion(true);
-//		double endsubtime = System.currentTimeMillis();
-//		double diff = (endsubtime - startsubtime) / 1000;
-//		sumdiff = sumdiff + diff;
-//
-//		Results[] result = new Results[settings.DIMENSION];
-//	    double [][] resultPerIteration=new
-//		double[settings.SWARM_SIZE][settings.DIMENSION];
-//
-//		for (int i = 0; i < settings.DIMENSION; i++) {
-//			result[i] = new Results(settings.SWARM_SIZE, settings.MAX_ITERATION);
-//		}
-//
-//		worm swarmPr[] = new worm[settings.SWARM_SIZE];
-//		swarmPr = readSwarm(outFile.toString(), conf);
-//		// printSwarm(swarmPr);
-//		
-//		fill(swarmPr, iteration, result);
-//		
-//		fillresultPerIteration(swarmPr,resultPerIteration);
-//		
-//		 FileWriter fstream1 = new
-//		 FileWriter(outputDirectories+"/peakcapture.txt");
-//		 BufferedWriter outpeakcapture = new BufferedWriter(fstream1);
-//
-//		 FileWriter fstream2 = new
-//		 FileWriter(outputDirectories+"/avgdist.txt");
-//		 BufferedWriter outavgdist = new BufferedWriter(fstream2);
-//
-//		
-//		 FileWriter fstream3 = new
-//		 FileWriter(outputDirectories+"/timeinfo.txt");
-//		 BufferedWriter outtime = new BufferedWriter(fstream3);
-//
-//		 
-//	
-//		 double avdist=calcuateavgdist(resultPerIteration,peaks);
-//		outavgdist.write(iteration+"\t"+avdist+"\n");
-//		 System.out.println("avdist at "+iteration+" iteration="+avdist+"\n");
-//		 double crate=calcuatecrate(resultPerIteration,peaks);
-//		 System.out.println("crate at "+iteration+" iteration="+crate+"\n");
-//		 outpeakcapture.write(iteration+"\t"+crate+"\n");
-//		 outtime.write(iteration+"\t"+diff+"\n"); 
-//		 outpeakcapture.flush();
-//		 outavgdist.flush();
-//		 outtime.flush();
-//		
-//		globalMAXworm.setPosition(swarmPr[0].getposition());
-//		globalMAXworm.setJx(swarmPr[0].getJx());
-//		globalMAXworm.setID(iteration);
-//		System.out.println("=========================================");
-//		System.out.println("ITERATION: " + iteration);
-//		System.out.println("=========================================");
-//		MaxJx(swarmPr, globalMAXworm, iteration);
-//		System.out.println("Iteration TIME: " + diff + " Seconds");
-//		System.out.println("Whole TIME: " + sumdiff + " Seconds");
-//		System.out.println("=========================================");
-//		System.out.println("*IBRAHIM: FileInputFormat.getMaxSplitSize="
-//				+ FileInputFormat.getMaxSplitSize(job) + " cal:" + splitSize
-//				+ " swarm lingth:" + lenth);
-//		System.out.println("*IBRAHIM: ****JOB1 END****");
-//		
-//		iteration++;
-//		while (iteration < settings.MAX_ITERATION) {
-//
-//			startsubtime = System.currentTimeMillis();
-//			
-//			FileSystem fs2 = FileSystem.get(conf); // nnn conf1
-//			Path InFilen2 = new Path(settings.pathy + "files/t_" + (iteration)
-//					+ "/");
-//			Path outFile2 = new Path(settings.pathy + "files/t_"
-//					+ (iteration + 1) + "/");
-//			fs2.delete(outFile2, true);
-//			conf.set("swarm.file", "" + InFilen2.toString());
-//			
-//			job = new Job(conf);
-//			lenth = fs.getContentSummary(InFilen2).getLength();
-//			splitSize = lenth / (settings.noOfNOdes * settings.maxMappers);
-//			// System.out.println(FileInputFormat.getMaxSplitSize()+"  "+splitSize);
-//			FileInputFormat.setMaxInputSplitSize(job, splitSize);
-//
-//			// System.exit(-1);
-//			job.setJobName("GSO" + iteration);
-//			job.setMapperClass(GSOMapper.class);
-//			job.setReducerClass(GSOReducer.class);
-//
-//			job.setMapOutputKeyClass(IntWritable.class);
-//			job.setMapOutputValueClass(Text.class);
-//			job.setInputFormatClass(KeyTextInputFormat.class);
-//			FileInputFormat.addInputPath(job, InFilen2);
-//			FileOutputFormat.setOutputPath(job, outFile2);
-//			job.setJarByClass(GSOMainJob.class);
-//
-//			// the job using just the MAPPER function.
-//			job.setNumReduceTasks(settings.maxReducers);
-//			// job.setNumReduceTasks(0);
-//			System.out.println("*IBRAHIM: ****JOB1 START****");
-//			job.waitForCompletion(true);
-//			System.out.println("*IBRAHIM: ****JOB1 END****");
-//
-//			endsubtime = System.currentTimeMillis();
-//			diff = (endsubtime - startsubtime) / 1000;
-//			sumdiff = sumdiff + diff;
-//
-//			swarmPr = readSwarm(outFile2.toString(), conf);
-//
-//			// printSwarm(swarmPr);
-//
-//			 fill(swarmPr, iteration, result);
-//			 fillresultPerIteration(swarmPr,resultPerIteration);
-//			 avdist=calcuateavgdist(resultPerIteration,peaks);
-//			 outavgdist.append(iteration+"\t"+avdist+"\n");
-//			 crate=calcuatecrate(resultPerIteration,peaks);
-//			 outpeakcapture.append(iteration+"\t"+crate+"\n");
-//			 outtime.append(iteration+"\t"+diff+"\n");
-//			 outpeakcapture.flush();
-//			 outavgdist.flush();
-//			 outtime.flush();
-//			 
-//			 
-//			System.out.println("=========================================");
-//			System.out.println("ITERATION: " + iteration);
-//			System.out.println("=========================================");
-//			MaxJx(swarmPr, globalMAXworm, iteration);
-//			System.out.println("Iteration TIME: " + diff + " Seconds");
-//			System.out.println("Whole TIME: " + sumdiff + " Seconds");
-//			System.out.println("=========================================");
-//			System.out.println("*IBRAHIM: FileInputFormat.getMaxSplitSize="
-//					+ FileInputFormat.getMaxSplitSize(job) + " cal:"
-//					+ splitSize + " swarm lingth:" + lenth);
-//			
-//			++iteration;
-//		}
-//		if (iteration == (settings.MAX_ITERATION)) {
-////			 writeResults(outputDirectories, result);
-//			 outtime.append("===============================================================\n");
-//			 outtime.append("Total Time for "+settings.MAX_ITERATION+" Iteartions:"+sumdiff+" (s)\n");
-//			 outtime.append("Average Time per iteration :"+(sumdiff/settings.MAX_ITERATION)+" (s)\n");
-//			 outtime.append("===============================================================\n");
-//			 outtime.append("#nodes:"+settings.noOfNOdes+"\n");
-//			
-//			 
-//			 outpeakcapture.close();
-//			 outavgdist.close();
-//			 outtime.close();
-//		}
+		double endsubtime = System.currentTimeMillis();
+		double diff = (endsubtime - startsubtime) / 1000;
+		sumdiff = sumdiff + diff;
+
+		Results[] result = new Results[settings.getDimension()];
+	    double [][] resultPerIteration=new
+		double[settings.getSwarmSize()][settings.getDimension()];
+
+		for (int i = 0; i < settings.getDimension(); i++) {
+			result[i] = new Results(settings.getSwarmSize(), settings.getMaxIteration());
+		}
+
+		worm swarmPr[] = new worm[settings.getSwarmSize()];
+		swarmPr = readSwarm(outFile.toString(), conf);
+		// printSwarm(swarmPr);
+		
+		fill(swarmPr, iteration, result);
+		
+		fillresultPerIteration(swarmPr,resultPerIteration);
+		
+		 FileWriter fstream1 = new
+		 FileWriter(outputDirectories+"/peakcapture.txt");
+		 BufferedWriter outpeakcapture = new BufferedWriter(fstream1);
+
+		 FileWriter fstream2 = new
+		 FileWriter(outputDirectories+"/avgdist.txt");
+		 BufferedWriter outavgdist = new BufferedWriter(fstream2);
+
+		
+		 FileWriter fstream3 = new
+		 FileWriter(outputDirectories+"/timeinfo.txt");
+		 BufferedWriter outtime = new BufferedWriter(fstream3);
+
+		 
+	
+		 double avdist=calcuateavgdist(resultPerIteration,peaks);
+		outavgdist.write(iteration+"\t"+avdist+"\n");
+		 System.out.println("avdist at "+iteration+" iteration="+avdist+"\n");
+		 double crate=calcuatecrate(resultPerIteration,peaks);
+		 System.out.println("crate at "+iteration+" iteration="+crate+"\n");
+		 outpeakcapture.write(iteration+"\t"+crate+"\n");
+		 outtime.write(iteration+"\t"+diff+"\n"); 
+		 outpeakcapture.flush();
+		 outavgdist.flush();
+		 outtime.flush();
+		
+		globalMAXworm.setPosition(swarmPr[0].getposition());
+		globalMAXworm.setJx(swarmPr[0].getJx());
+		globalMAXworm.setID(iteration);
+		System.out.println("=========================================");
+		System.out.println("ITERATION: " + iteration);
+		System.out.println("=========================================");
+		MaxJx(swarmPr, globalMAXworm, iteration);
+		System.out.println("Iteration TIME: " + diff + " Seconds");
+		System.out.println("Whole TIME: " + sumdiff + " Seconds");
+		System.out.println("=========================================");
+		System.out.println("*IBRAHIM: FileInputFormat.getMaxSplitSize="
+				+ FileInputFormat.getMaxSplitSize(job) + " cal:" + splitSize
+				+ " swarm lingth:" + lenth);
+		System.out.println("*IBRAHIM: ****JOB1 END****");
+		
+		iteration++;
+		while (iteration < settings.getMaxIteration()) {
+
+			startsubtime = System.currentTimeMillis();
+			
+			FileSystem fs2 = FileSystem.get(conf); // nnn conf1
+			Path InFilen2 = new Path(settings.getPathy() + "files/t_" + (iteration)
+					+ "/");
+			Path outFile2 = new Path(settings.getPathy() + "files/t_"
+					+ (iteration + 1) + "/");
+			fs2.delete(outFile2, true);
+			conf.set("swarm.file", "" + InFilen2.toString());
+			
+			job = new Job(conf);
+			lenth = fs.getContentSummary(InFilen2).getLength();
+			splitSize = lenth / settings.getNoOfNOdes() ;
+			// System.out.println(FileInputFormat.getMaxSplitSize()+"  "+splitSize);
+			FileInputFormat.setMaxInputSplitSize(job, splitSize);
+
+			// System.exit(-1);
+			job.setJobName("GSO" + iteration);
+			job.setMapperClass(GSOMapper.class);
+			job.setReducerClass(GSOReducer.class);
+
+			job.setMapOutputKeyClass(IntWritable.class);
+			job.setMapOutputValueClass(Text.class);
+			job.setInputFormatClass(KeyTextInputFormat.class);
+			FileInputFormat.addInputPath(job, InFilen2);
+			FileOutputFormat.setOutputPath(job, outFile2);
+			job.setJarByClass(GSOMainJob.class);
+
+			// the job using just the MAPPER function.
+			job.setNumReduceTasks(1);
+			// job.setNumReduceTasks(0);
+			System.out.println("*IBRAHIM: ****JOB1 START****");
+			job.waitForCompletion(true);
+			System.out.println("*IBRAHIM: ****JOB1 END****");
+
+			endsubtime = System.currentTimeMillis();
+			diff = (endsubtime - startsubtime) / 1000;
+			sumdiff = sumdiff + diff;
+
+			swarmPr = readSwarm(outFile2.toString(), conf);
+
+			// printSwarm(swarmPr);
+
+			 fill(swarmPr, iteration, result);
+			 fillresultPerIteration(swarmPr,resultPerIteration);
+			 avdist=calcuateavgdist(resultPerIteration,peaks);
+			 outavgdist.append(iteration+"\t"+avdist+"\n");
+			 crate=calcuatecrate(resultPerIteration,peaks);
+			 outpeakcapture.append(iteration+"\t"+crate+"\n");
+			 outtime.append(iteration+"\t"+diff+"\n");
+			 outpeakcapture.flush();
+			 outavgdist.flush();
+			 outtime.flush();
+			 
+			 
+			System.out.println("=========================================");
+			System.out.println("ITERATION: " + iteration);
+			System.out.println("=========================================");
+			MaxJx(swarmPr, globalMAXworm, iteration);
+			System.out.println("Iteration TIME: " + diff + " Seconds");
+			System.out.println("Whole TIME: " + sumdiff + " Seconds");
+			System.out.println("=========================================");
+			System.out.println("*IBRAHIM: FileInputFormat.getMaxSplitSize="
+					+ FileInputFormat.getMaxSplitSize(job) + " cal:"
+					+ splitSize + " swarm lingth:" + lenth);
+			
+			++iteration;
+		}
+		if (iteration == (settings.getMaxIteration())) {
+//			 writeResults(outputDirectories, result);
+			 outtime.append("===============================================================\n");
+			 outtime.append("Total Time for "+settings.getMaxIteration()+" Iteartions:"+sumdiff+" (s)\n");
+			 outtime.append("Average Time per iteration :"+(sumdiff/settings.getMaxIteration())+" (s)\n");
+			 outtime.append("===============================================================\n");
+			 outtime.append("#nodes:"+settings.getNoOfNOdes()+"\n");
+			
+			 
+			 outpeakcapture.close();
+			 outavgdist.close();
+			 outtime.close();
+		}
 
 	}
 
@@ -597,11 +619,11 @@ public class GSOMainJob {
 		double crate = 0;
 		int nwormsclosed = 3;
 		double epsilon = 0.05;  //0.05
-		double[] gwormsInsidePeaks = new double[Settings.peaksNO];
-		for (int i = 0; i < Settings.SWARM_SIZE; i++) {
-			for (int k = 0; k < Settings.peaksNO; k++) {
+		double[] gwormsInsidePeaks = new double[settings.getPeaksNO()];
+		for (int i = 0; i < settings.getSwarmSize(); i++) {
+			for (int k = 0; k < settings.getPeaksNO(); k++) {
 				double dist = 0;
-				for (int j = 0; j < Settings.DIMENSION; j++) {
+				for (int j = 0; j < settings.getDimension(); j++) {
 					dist = dist
 							+ Math.pow(
 									(resultPerIteration[i][j] - peaks[k][j]), 2);
@@ -613,13 +635,13 @@ public class GSOMainJob {
 			}
 		}
 		double count = 0;
-		for (int k = 0; k < Settings.peaksNO; k++) {
+		for (int k = 0; k < settings.getPeaksNO(); k++) {
 			if (gwormsInsidePeaks[k] >= nwormsclosed) {
 				count = count + 1;
 			}
 		}
 
-		crate = count / (Settings.peaksNO * 1.0);
+		crate = count / (settings.getPeaksNO() * 1.0);
 
 		return crate;
 	}
@@ -627,17 +649,17 @@ public class GSOMainJob {
 	private static double calcuateavgdist(double[][] resultPerIteration,
 			double[][] peaks) {
 		double sum = 0;
-		for (int i = 0; i < Settings.SWARM_SIZE; i++) {
+		for (int i = 0; i < settings.getSwarmSize(); i++) {
 			double minseg = 0;
-			for (int j = 0; j < Settings.DIMENSION; j++) {
+			for (int j = 0; j < settings.getDimension(); j++) {
 				minseg = minseg
 						+ Math.pow((resultPerIteration[i][j] - peaks[0][j]), 2);
 			}
 			minseg = Math.sqrt(minseg);
 
-			for (int k = 1; k < Settings.peaksNO; k++) {
+			for (int k = 1; k < settings.getPeaksNO(); k++) {
 				double seg = 0;
-				for (int j = 0; j < Settings.DIMENSION; j++) {
+				for (int j = 0; j < settings.getDimension(); j++) {
 					seg = seg
 							+ Math.pow(
 									(resultPerIteration[i][j] - peaks[k][j]), 2);
@@ -650,8 +672,40 @@ public class GSOMainJob {
 			sum = sum + minseg;
 		}
 
-		double disAvg = sum / (Settings.SWARM_SIZE * 1.0);
+		double disAvg = sum / (settings.getSwarmSize() * 1.0);
 
 		return disAvg;
+	}
+	
+	
+	private static void initialize(String filePath, String config) throws JsonSyntaxException, JsonIOException, IOException{
+		String sLine = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+
+			String sCurrentLine;
+
+			while ((sCurrentLine = br.readLine()) != null) {
+				sLine= sLine+sCurrentLine;
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	 settings = createConfigMap(sLine).get(config);
+	}
+	/**
+	 * Initialize the main class with all the required values here.
+	 * @throws JsonIOException 
+	 * @throws JsonSyntaxException 
+	 * @throws IOException 
+	 */
+	private static HashMap<String, Settings> createConfigMap(String json) throws JsonSyntaxException, JsonIOException, IOException{
+		Type type = new TypeToken<HashMap<String, Settings>>(){}.getType();
+
+		Gson gson = new Gson();
+		HashMap<String, Settings>  configMap= gson.fromJson(json, type);		
+		return (configMap);
+
+
 	}
 }

@@ -22,9 +22,11 @@ public class GSOMapper1 implements Function<Worm, Worm>{
 	final static Logger logger = Logger.getLogger(GSOMapper1.class);
 	private GSOConfig gsoConfig;
 	List<Worm> swarm;
+	Broadcast<List<Worm>> brSwarm;
 
 	
 	public GSOMapper1(GSOConfig gsoConfig, Broadcast<List<Worm>> brSwarm){
+	//	System.out.println("********************YO! I AM HERE*******************************************");
 		this.gsoConfig = gsoConfig;
 		this.swarm = brSwarm.getValue();
 	}
@@ -34,7 +36,7 @@ public class GSOMapper1 implements Function<Worm, Worm>{
 		//Calculating Euclidian distance between the given worm and all the other worms in swarm
 		//to find neighbors of the given worm
 	//	logger.setLevel(Level.DEBUG);
-		logger.debug("************worm: "+worm.getID());
+//		logger.debug("************worm: "+worm.getID());
 		
 		List<Worm> neighborWorms = new ArrayList<Worm>();
 		for (Worm wormInSwarm : swarm){			
@@ -77,7 +79,9 @@ public class GSOMapper1 implements Function<Worm, Worm>{
 					++ii;
 				}
 				index = ii - 1;
-				worm.setNeightbourWorm(neighborWorms.get(index));
+				Worm neighbourWorm = neighborWorms.get(index);
+				neighbourWorm.setNeightbourWorm(null);
+				worm.setNeightbourWorm(neighbourWorm);
 				worm.setNeighbourWormSize(neighborWorms.size());
 			}
 

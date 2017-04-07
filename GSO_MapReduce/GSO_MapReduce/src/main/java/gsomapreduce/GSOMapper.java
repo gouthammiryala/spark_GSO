@@ -68,6 +68,7 @@ public class GSOMapper extends Mapper<Text, Text, IntWritable, Text> {
 	@Override
 	protected void map(Text key, Text value, Context context)
 			throws IOException, InterruptedException {
+//		System.out.println("*************YO I am in the mapper******************"+swarmSize);
 		String[] line = value.toString().split(";");
 		worm worm1 = new worm();
 		worm1.setID(Integer.parseInt("" + key));
@@ -99,6 +100,7 @@ public class GSOMapper extends Mapper<Text, Text, IntWritable, Text> {
 
 		double PositionJ[] = worm1.getposition();
 
+		
 		for (int x = 0; x < swarmSize; x++) {
 			if (swarmPr[x].getID() != worm1.getID()) {
 				double distance, sum = 0;
@@ -214,6 +216,7 @@ public class GSOMapper extends Mapper<Text, Text, IntWritable, Text> {
 
 			}
 		}
+		System.out.println("Swarm size is :"+swarm.length);
 		return swarm;
 
 	}

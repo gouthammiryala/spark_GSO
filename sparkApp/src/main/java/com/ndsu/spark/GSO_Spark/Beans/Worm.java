@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 
 public class Worm implements Serializable {
 	@Override
 	public String toString() {
-		return "Worm [id=" + id + ", position=" + Arrays.toString(position) + ", luc=" + luc + ", rd=" + rd + ", Jx="
-				+ Jx + ", neighbourWormsSize=" + neighbourWormsSize + ", neightbourWorm=" + neightbourWorm
-				+ ", wormNeighbors=" + wormNeighbors + "]";
+		  return new Gson().toJson(this);
 	}
 
 	int id;
@@ -106,47 +106,6 @@ public class Worm implements Serializable {
 		this.neighbourWormsSize = neighbourWormSize;
 	}
 
-
-	public void printSwarm(Worm swarm[]) {
-		//		for (int i = 0; i < swarm.length; i++) {
-		//			double position[] = new double[Settings.DIMENSION];
-		//			position = swarm[i].getposition();
-		//			System.out.print("W" + i + "\t");
-		//			for (int a = 0; a < Settings.DIMENSION; a++) {
-		//				System.out.print("P" + a + ": " + position[a] + "\t");
-		//			}
-		//			System.out.print("Jx:" + swarm[i].getJx() + "\t");
-		//			System.out.print("Luc:" + swarm[i].getluc() + "\t");
-		//			System.out.println("Rd:" + swarm[i].getRd() + "\t");
-		//			// System.out.println("");
-		//		}
-	}
-
-	public void printWorm() {
-		//		System.out.print("W" + id + "\t");
-		//		for (int a = 0; a < Settings.DIMENSION; a++) {
-		//			System.out.print("P" + a + ": " + position[a] + "\t");
-		//		}
-		//		System.out.print("Jx:" + Jx + "\t");
-		//		System.out.print("Luc:" + luc + "\t");
-		//		System.out.println("Rd:" + rd + "\t");
-		//		// System.out.println("");
-
-	}
-
-	public void printnb() {
-		//		for (int i = 0; i < wormNeighbors.size(); i++) {
-		//			double position[] = new double[Settings.DIMENSION];
-		//			position = wormNeighbors.get(i).getposition();
-		//			System.out.println("nb:" + wormNeighbors.get(i).getID() + "\t");
-		//			for (int a = 0; a < Settings.DIMENSION; a++) {
-		//				System.out.print("P" + a + ": " + position[a] + "\t");
-		//			}
-		//			System.out.print("Jx:" + wormNeighbors.get(i).getJx() + "\t");
-		//			System.out.print("Luc:" + wormNeighbors.get(i).getluc() + "\t");
-		//			System.out.println("Rd:" + wormNeighbors.get(i).getRd() + "\t");
-
-	}
 }
 
 

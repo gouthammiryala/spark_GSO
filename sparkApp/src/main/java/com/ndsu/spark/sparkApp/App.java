@@ -1,7 +1,14 @@
 package com.ndsu.spark.sparkApp;
 
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.broadcast.Broadcast;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.ndsu.spark.GSO_Spark.Beans.Worm;
 
 import scala.Tuple2;
 
@@ -10,7 +17,12 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.Accumulator;
 import org.apache.spark.SparkConf;
 
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -22,66 +34,34 @@ import java.util.concurrent.atomic.LongAccumulator;
  */
 public class App 
 {
-	 public static void main(String[] args) {
+	 public static void main(String[] args) throws JsonSyntaxException, JsonIOException, IOException {
 		 
-	     //   get("/hello", (req, res) -> "Hello World");
-		 
-		 System.setProperty("hadoop.home.dir", "D:\\NDSU\\DrSimones_Lab");
-		 SparkConf conf = new SparkConf().setAppName("testApp").setMaster("local");
-		// conf.s
-		 JavaSparkContext sc = new JavaSparkContext(conf);
+		 ArrayList<Worm> swarm = new ArrayList<Worm>();//Worm[gsoConfig.getSwarmSize()];
+			File f = new File("D:\\NDSU\\DrSimones_Lab\\git\\sparkApp\\src\\main\\java\\com\\ndsu\\spark\\sparkApp\\part-00000");
+			//for(File f : dir.listFiles()){
+			BufferedReader br = new BufferedReader(new FileReader("D:\\NDSU\\DrSimones_Lab\\git\\sparkApp\\src\\main\\java\\com\\ndsu\\spark\\sparkApp\\part-00000"));
 
-		 sc.hadoopConfiguration().set("dfs.nameservices","hadooptest");
+			try {
+			    StringBuilder sb = new StringBuilder();
+			    String line = br.readLine();
 
-//		 sc.hadoopConfiguration().set("dfs.namenode.name.dir", "file:/hadoop/data/dfs/namenode");
-//		 sc.hadoopConfiguration().set("dfs.datanode.data.dir","file:/hadoop/data/dfs/datanode");
-//		 sc.hadoopConfiguration().set("dfs.http.address","127.0.0.1:50070");
-		// sc.hadoopConfiguration().set("","");
-		// conf
-		 //conf.set("fs.default.name", "hdfs://127.0.0.1:9000"); 
-//		 List<Integer> data = Arrays.asList(1, 2, 3, 4, 5);
-////		 JavaRDD<Integer> distData = sc.
-//		 JavaRDD<Integer> distData = sc.parallelize(data);
-//		 JavaPairRDD<Integer, Integer> testMapper = distData.mapToPair(new TestMapper());
-//		 
-//		 //		 int totalLength = distData.reduce((a,b) -> a - b);
-//		 JavaPairRDD<Integer, Integer> totalLength = testMapper.reduceByKey(new TestReducer());
-//		 System.out.println(distData.reduce(new TestReducer()));
-//		 
-//		 int test = distData.reduce(new TestReducer());
-//		 		// totalLength.aggregate(new TestReducer());
-//		 int sum = 0;
-//		    List<Tuple2<Integer, Integer>> output = totalLength.collect();
-//		    for (Tuple2<?,?> tuple : output) {
-//		    	//sum = sum+(tuple._2());
-//		        //System.out.println(tuple._1() + ": " + tuple._2());
-//		      }
-//System.out.println("**********************Sum: "+sum);
-//		 System.out.println("********************** countbyvalue = "+totalLength.countByKey());
-//		
-//		 System.out.println("********************** count = "+totalLength.count());
+			    while (line != null) {
+			    	Gson gson = new Gson();
+			    	swarm.add(gson.fromJson(line, Worm.class));
+			        line = br.readLine();
+			    }
+			   // String everything = sb.toString();
+			} finally {
+			    br.close();
+			}
+//					
+//					Gson gson = new Gson();
+//					Worm[] swarmTemp = gson.fromJson(new FileReader(f), Worm[].class);
+//					swarm.addAll(Arrays.asList(swarmTemp));
+//				}
+			//}
 
-		// LongAccumulator n - 
-		 Broadcast<String> brCenters = sc.broadcast("testing"); 
-		 JavaRDD<String> lines = sc.textFile("src/main/resources/data.txt");
-		 Accumulator<Integer> validSignCount = sc.accumulator(0);
-		 
-		 JavaPairRDD<String, Integer> pairs = lines.mapToPair(new TestMapper(brCenters));
-//		 sc.broadcast();
-		 //JavaRDD<Integer> pairs = lines.map(new TestMapper());
-//		 Map<String, Integer> t = pairs.reduceByKeyLocally(new TestReducer());
-		 Tuple2<String, Integer> totalLength = pairs.reduce(new TestReducer());
-//		 for (String value : t.keySet())
-//			 System.out.println(value);
-//		 System.out.println(t.values().toArray().toString());
-//		 JavaPairRDD<String, Integer> counts = pairs.reduceByKey(new TestReducer());
-//		 System.out.println("counts.first()"+counts.first());
-////		 counts.saveAsTextFile("d:\\NDSU\\DrSimones Lab\\test\\test.txt");
-//		 //saveAsSequenceFile("d:\\test_seq.txt");
-//
-//		 
-//		 System.out.println("counts.countByKey()"+counts.countByKey());
-		 
+			System.out.println(swarm.size());
 
 	    }	 
 	

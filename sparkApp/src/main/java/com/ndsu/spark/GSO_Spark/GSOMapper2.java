@@ -23,7 +23,7 @@ public class GSOMapper2 implements Function<Worm, Worm>{
 
 	private GSOConfig gsoConfig;
 	private GSOBenchmark gsoBenchmark;
-//	AccumulatorV2<Worm, List<Worm>> acSwarm;
+//	private GSOUpdateLuciferen acSwarm;
 	
 	public GSOMapper2(GSOConfig gsoConfig, GSOBenchmark gsoBenchmark){
 		this.gsoConfig = gsoConfig;

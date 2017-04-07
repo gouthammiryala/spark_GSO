@@ -78,10 +78,10 @@ public class CF4 {
 		/* funcs_.add(new FRastrigin(boundsFn) );*/
 		
 	    String fname;
-	    fname = "mrresources/data/CF4_M_D" + position.length + "_opt.dat";
+	    fname = "resources/data/CF4_M_D" + position.length + "_opt.dat";
 //	    fname = "data/CF4_M_D" + position.length + "_opt.dat";
         loadOptima(fname,position.length);
-	    fname = "mrresources/data/CF4_M_D" + position.length + ".dat";
+	    fname = "resources/data/CF4_M_D" + position.length + ".dat";
 //	    fname = "data/CF4_M_D" + position.length + ".dat";
 	    loadRotationMatrix(fname,position.length);
 	    

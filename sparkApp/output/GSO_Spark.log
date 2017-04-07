@@ -1,0 +1,385 @@
+2017-04-06 00:04:03 ERROR SparkContext:91 - Error initializing SparkContext.
+org.apache.spark.SparkException: A master URL must be set in your configuration
+	at org.apache.spark.SparkContext.<init>(SparkContext.scala:379)
+	at org.apache.spark.api.java.JavaSparkContext.<init>(JavaSparkContext.scala:58)
+	at com.ndsu.spark.GSO_Spark.GSO_SparkMain.execute(GSO_SparkMain.java:110)
+	at com.ndsu.spark.GSO_Spark.GSO_SparkMain.main(GSO_SparkMain.java:86)
+2017-04-06 00:19:16 INFO  GSO_SparkMain:103 - Using the following configuration for this execution: GSOConfig [sparkMaster=null, testRun=1, swarmSize=10000, dimension=2, maxIteration=200, peaksNo=8, benchName=CF4, p_const=0.4, gamma=0.6, B=0.08, nt=5.0, step=0.03, l0=5.0, r0=0.6, rs=0.6, pathy=input/, noOfNOdes=0, maxReducersPerNode=0, maxMappersPerNode=0, reducersThreshold=0.5]
+2017-04-06 00:19:17 INFO  SparkContext:54 - Running Spark version 2.1.0
+2017-04-06 00:19:17 INFO  SecurityManager:54 - Changing view acls to: Goutham
+2017-04-06 00:19:17 INFO  SecurityManager:54 - Changing modify acls to: Goutham
+2017-04-06 00:19:17 INFO  SecurityManager:54 - Changing view acls groups to: 
+2017-04-06 00:19:17 INFO  SecurityManager:54 - Changing modify acls groups to: 
+2017-04-06 00:19:17 INFO  SecurityManager:54 - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(Goutham); groups with view permissions: Set(); users  with modify permissions: Set(Goutham); groups with modify permissions: Set()
+2017-04-06 00:19:18 INFO  Utils:54 - Successfully started service 'sparkDriver' on port 61508.
+2017-04-06 00:19:18 INFO  SparkEnv:54 - Registering MapOutputTracker
+2017-04-06 00:19:18 INFO  SparkEnv:54 - Registering BlockManagerMaster
+2017-04-06 00:19:18 INFO  BlockManagerMasterEndpoint:54 - Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+2017-04-06 00:19:18 INFO  BlockManagerMasterEndpoint:54 - BlockManagerMasterEndpoint up
+2017-04-06 00:19:18 INFO  DiskBlockManager:54 - Created local directory at C:\Users\Goutham\AppData\Local\Temp\blockmgr-5d6f4ece-977b-4b7d-98c5-deb4fda667b9
+2017-04-06 00:19:18 INFO  MemoryStore:54 - MemoryStore started with capacity 1994.1 MB
+2017-04-06 00:19:18 INFO  SparkEnv:54 - Registering OutputCommitCoordinator
+2017-04-06 00:19:18 INFO  log:186 - Logging initialized @1901ms
+2017-04-06 00:19:18 INFO  Server:327 - jetty-9.2.z-SNAPSHOT
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@b78a709{/jobs,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@30bcf3c1{/jobs/json,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@2a3c96e3{/jobs/job,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@15cafec7{/jobs/job/json,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5b444398{/stages,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@cb191ca{/stages/json,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@42f48531{/stages/stage,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@a776e{/stages/stage/json,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@792bbc74{/stages/pool,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@79145d5a{/stages/pool/json,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@1f2f9244{/storage,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@4c4d27c8{/storage/json,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@6821ea29{/storage/rdd,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@338494fa{/storage/rdd/json,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@505a9d7c{/environment,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@758c83d8{/environment/json,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@129b4fe2{/executors,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5af3a0f{/executors/json,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@19ae6bb{/executors/threadDump,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@10993713{/executors/threadDump/json,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@58359ebd{/static,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@24b6b8f6{/,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@72cf2de5{/api,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@2bb7bd00{/jobs/job/kill,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5f031ebd{/stages/stage/kill,null,AVAILABLE}
+2017-04-06 00:19:18 INFO  ServerConnector:266 - Started ServerConnector@79da1ec0{HTTP/1.1}{0.0.0.0:4040}
+2017-04-06 00:19:18 INFO  Server:379 - Started @2018ms
+2017-04-06 00:19:18 INFO  Utils:54 - Successfully started service 'SparkUI' on port 4040.
+2017-04-06 00:19:18 INFO  SparkUI:54 - Bound SparkUI to 0.0.0.0, and started at http://192.168.56.1:4040
+2017-04-06 00:19:18 INFO  Executor:54 - Starting executor ID driver on host localhost
+2017-04-06 00:19:18 INFO  Utils:54 - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 61529.
+2017-04-06 00:19:18 INFO  NettyBlockTransferService:54 - Server created on 192.168.56.1:61529
+2017-04-06 00:19:18 INFO  BlockManager:54 - Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+2017-04-06 00:19:18 INFO  BlockManagerMaster:54 - Registering BlockManager BlockManagerId(driver, 192.168.56.1, 61529, None)
+2017-04-06 00:19:18 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 192.168.56.1:61529 with 1994.1 MB RAM, BlockManagerId(driver, 192.168.56.1, 61529, None)
+2017-04-06 00:19:18 INFO  BlockManagerMaster:54 - Registered BlockManager BlockManagerId(driver, 192.168.56.1, 61529, None)
+2017-04-06 00:19:18 INFO  BlockManager:54 - Initialized BlockManager: BlockManagerId(driver, 192.168.56.1, 61529, None)
+2017-04-06 00:19:18 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@200606de{/metrics/json,null,AVAILABLE}
+2017-04-06 00:19:20 INFO  GSO_SparkMain:204 - ******************Iteration: 0 Started***************************
+2017-04-06 00:19:20 INFO  GSO_SparkMain:205 - Mapping and Reducing started
+2017-04-06 00:19:20 INFO  MemoryStore:54 - Block broadcast_0 stored as values in memory (estimated size 1093.8 KB, free 1993.0 MB)
+2017-04-06 00:19:20 INFO  MemoryStore:54 - Block broadcast_0_piece0 stored as bytes in memory (estimated size 413.4 KB, free 1992.6 MB)
+2017-04-06 00:19:20 INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on 192.168.56.1:61529 (size: 413.4 KB, free: 1993.7 MB)
+2017-04-06 00:19:20 INFO  SparkContext:54 - Created broadcast 0 from broadcast at GSO_SparkMain.java:209
+2017-04-06 00:19:20 INFO  SparkContext:54 - Starting job: collect at GSO_SparkMain.java:213
+2017-04-06 00:19:20 INFO  DAGScheduler:54 - Got job 0 (collect at GSO_SparkMain.java:213) with 4 output partitions
+2017-04-06 00:19:20 INFO  DAGScheduler:54 - Final stage: ResultStage 0 (collect at GSO_SparkMain.java:213)
+2017-04-06 00:19:20 INFO  DAGScheduler:54 - Parents of final stage: List()
+2017-04-06 00:19:20 INFO  DAGScheduler:54 - Missing parents: List()
+2017-04-06 00:19:20 INFO  DAGScheduler:54 - Submitting ResultStage 0 (MapPartitionsRDD[2] at map at GSO_SparkMain.java:212), which has no missing parents
+2017-04-06 00:19:20 INFO  MemoryStore:54 - Block broadcast_1 stored as values in memory (estimated size 649.2 KB, free 1992.0 MB)
+2017-04-06 00:19:20 INFO  MemoryStore:54 - Block broadcast_1_piece0 stored as bytes in memory (estimated size 416.3 KB, free 1991.6 MB)
+2017-04-06 00:19:20 INFO  BlockManagerInfo:54 - Added broadcast_1_piece0 in memory on 192.168.56.1:61529 (size: 416.3 KB, free: 1993.3 MB)
+2017-04-06 00:19:20 INFO  SparkContext:54 - Created broadcast 1 from broadcast at DAGScheduler.scala:996
+2017-04-06 00:19:20 INFO  DAGScheduler:54 - Submitting 4 missing tasks from ResultStage 0 (MapPartitionsRDD[2] at map at GSO_SparkMain.java:212)
+2017-04-06 00:19:20 INFO  TaskSchedulerImpl:54 - Adding task set 0.0 with 4 tasks
+2017-04-06 00:19:20 WARN  TaskSetManager:66 - Stage 0 contains a task of very large size (167 KB). The maximum recommended task size is 100 KB.
+2017-04-06 00:19:20 INFO  TaskSetManager:54 - Starting task 0.0 in stage 0.0 (TID 0, localhost, executor driver, partition 0, PROCESS_LOCAL, 171151 bytes)
+2017-04-06 00:19:20 INFO  TaskSetManager:54 - Starting task 1.0 in stage 0.0 (TID 1, localhost, executor driver, partition 1, PROCESS_LOCAL, 171151 bytes)
+2017-04-06 00:19:20 INFO  TaskSetManager:54 - Starting task 2.0 in stage 0.0 (TID 2, localhost, executor driver, partition 2, PROCESS_LOCAL, 171151 bytes)
+2017-04-06 00:19:20 INFO  TaskSetManager:54 - Starting task 3.0 in stage 0.0 (TID 3, localhost, executor driver, partition 3, PROCESS_LOCAL, 171151 bytes)
+2017-04-06 00:19:20 INFO  Executor:54 - Running task 1.0 in stage 0.0 (TID 1)
+2017-04-06 00:19:20 INFO  Executor:54 - Running task 2.0 in stage 0.0 (TID 2)
+2017-04-06 00:19:20 INFO  Executor:54 - Running task 3.0 in stage 0.0 (TID 3)
+2017-04-06 00:19:20 INFO  Executor:54 - Running task 0.0 in stage 0.0 (TID 0)
+2017-04-06 00:19:21 INFO  MemoryStore:54 - Block rdd_0_1 stored as values in memory (estimated size 224.6 KB, free 1991.4 MB)
+2017-04-06 00:19:21 INFO  MemoryStore:54 - Block rdd_0_0 stored as values in memory (estimated size 224.6 KB, free 1991.1 MB)
+2017-04-06 00:19:21 INFO  MemoryStore:54 - Block rdd_0_3 stored as values in memory (estimated size 224.6 KB, free 1990.9 MB)
+2017-04-06 00:19:21 INFO  BlockManagerInfo:54 - Added rdd_0_1 in memory on 192.168.56.1:61529 (size: 224.6 KB, free: 1993.1 MB)
+2017-04-06 00:19:21 INFO  BlockManagerInfo:54 - Added rdd_0_0 in memory on 192.168.56.1:61529 (size: 224.6 KB, free: 1992.9 MB)
+2017-04-06 00:19:21 INFO  BlockManagerInfo:54 - Added rdd_0_3 in memory on 192.168.56.1:61529 (size: 224.6 KB, free: 1992.6 MB)
+2017-04-06 00:19:21 INFO  MemoryStore:54 - Block rdd_0_2 stored as values in memory (estimated size 224.6 KB, free 1990.7 MB)
+2017-04-06 00:19:21 INFO  BlockManagerInfo:54 - Added rdd_0_2 in memory on 192.168.56.1:61529 (size: 224.6 KB, free: 1992.4 MB)
+2017-04-06 00:19:33 INFO  MemoryStore:54 - Block rdd_1_2 stored as values in memory (estimated size 427.1 KB, free 1990.3 MB)
+2017-04-06 00:19:33 INFO  BlockManagerInfo:54 - Added rdd_1_2 in memory on 192.168.56.1:61529 (size: 427.1 KB, free: 1992.0 MB)
+2017-04-06 00:19:33 INFO  MemoryStore:54 - Block rdd_1_1 stored as values in memory (estimated size 429.1 KB, free 1989.9 MB)
+2017-04-06 00:19:33 INFO  BlockManagerInfo:54 - Added rdd_1_1 in memory on 192.168.56.1:61529 (size: 429.1 KB, free: 1991.6 MB)
+2017-04-06 00:19:33 INFO  MemoryStore:54 - Block rdd_1_3 stored as values in memory (estimated size 424.9 KB, free 1989.5 MB)
+2017-04-06 00:19:33 INFO  BlockManagerInfo:54 - Added rdd_1_3 in memory on 192.168.56.1:61529 (size: 424.9 KB, free: 1991.2 MB)
+2017-04-06 00:19:33 INFO  MemoryStore:54 - Block rdd_1_0 stored as values in memory (estimated size 433.1 KB, free 1989.0 MB)
+2017-04-06 00:19:33 INFO  BlockManagerInfo:54 - Added rdd_1_0 in memory on 192.168.56.1:61529 (size: 433.1 KB, free: 1990.7 MB)
+2017-04-06 00:19:33 INFO  MemoryStore:54 - Block rdd_2_2 stored as values in memory (estimated size 427.1 KB, free 1988.6 MB)
+2017-04-06 00:19:33 INFO  BlockManagerInfo:54 - Added rdd_2_2 in memory on 192.168.56.1:61529 (size: 427.1 KB, free: 1990.3 MB)
+2017-04-06 00:19:33 INFO  Executor:54 - Finished task 2.0 in stage 0.0 (TID 2). 295841 bytes result sent to driver
+2017-04-06 00:19:33 INFO  TaskSetManager:54 - Finished task 2.0 in stage 0.0 (TID 2) in 13175 ms on localhost (executor driver) (1/4)
+2017-04-06 00:19:33 INFO  MemoryStore:54 - Block rdd_2_1 stored as values in memory (estimated size 429.1 KB, free 1988.2 MB)
+2017-04-06 00:19:33 INFO  BlockManagerInfo:54 - Added rdd_2_1 in memory on 192.168.56.1:61529 (size: 429.1 KB, free: 1989.9 MB)
+2017-04-06 00:19:33 INFO  Executor:54 - Finished task 1.0 in stage 0.0 (TID 1). 295228 bytes result sent to driver
+2017-04-06 00:19:33 INFO  TaskSetManager:54 - Finished task 1.0 in stage 0.0 (TID 1) in 13249 ms on localhost (executor driver) (2/4)
+2017-04-06 00:19:33 INFO  MemoryStore:54 - Block rdd_2_3 stored as values in memory (estimated size 424.9 KB, free 1987.8 MB)
+2017-04-06 00:19:33 INFO  BlockManagerInfo:54 - Added rdd_2_3 in memory on 192.168.56.1:61529 (size: 424.9 KB, free: 1989.5 MB)
+2017-04-06 00:19:33 INFO  Executor:54 - Finished task 3.0 in stage 0.0 (TID 3). 294773 bytes result sent to driver
+2017-04-06 00:19:33 INFO  TaskSetManager:54 - Finished task 3.0 in stage 0.0 (TID 3) in 13282 ms on localhost (executor driver) (3/4)
+2017-04-06 00:19:34 INFO  MemoryStore:54 - Block rdd_2_0 stored as values in memory (estimated size 433.1 KB, free 1987.4 MB)
+2017-04-06 00:19:34 INFO  BlockManagerInfo:54 - Added rdd_2_0 in memory on 192.168.56.1:61529 (size: 433.1 KB, free: 1989.1 MB)
+2017-04-06 00:19:34 INFO  Executor:54 - Finished task 0.0 in stage 0.0 (TID 0). 293304 bytes result sent to driver
+2017-04-06 00:19:34 INFO  TaskSetManager:54 - Finished task 0.0 in stage 0.0 (TID 0) in 13448 ms on localhost (executor driver) (4/4)
+2017-04-06 00:19:34 INFO  DAGScheduler:54 - ResultStage 0 (collect at GSO_SparkMain.java:213) finished in 13.472 s
+2017-04-06 00:19:34 INFO  TaskSchedulerImpl:54 - Removed TaskSet 0.0, whose tasks have all completed, from pool 
+2017-04-06 00:19:34 INFO  DAGScheduler:54 - Job 0 finished: collect at GSO_SparkMain.java:213, took 13.570865 s
+2017-04-06 00:19:34 INFO  GSO_SparkMain:234 - Mapping and Reducing Ended
+2017-04-06 00:19:34 INFO  GSO_SparkMain:256 - ******************Iteration: 1 Ended***************************
+2017-04-06 00:19:34 INFO  GSO_SparkMain:204 - ******************Iteration: 1 Started***************************
+2017-04-06 00:19:34 INFO  GSO_SparkMain:205 - Mapping and Reducing started
+2017-04-06 00:19:34 INFO  MemoryStore:54 - Block broadcast_2 stored as values in memory (estimated size 1758.0 KB, free 1985.6 MB)
+2017-04-06 00:19:34 INFO  BlockManagerInfo:54 - Removed broadcast_1_piece0 on 192.168.56.1:61529 in memory (size: 416.3 KB, free: 1989.5 MB)
+2017-04-06 00:19:34 INFO  MemoryStore:54 - Block broadcast_2_piece0 stored as bytes in memory (estimated size 778.9 KB, free 1985.9 MB)
+2017-04-06 00:19:34 INFO  BlockManagerInfo:54 - Added broadcast_2_piece0 in memory on 192.168.56.1:61529 (size: 778.9 KB, free: 1988.7 MB)
+2017-04-06 00:19:34 INFO  SparkContext:54 - Created broadcast 2 from broadcast at GSO_SparkMain.java:209
+2017-04-06 00:19:34 INFO  SparkContext:54 - Starting job: collect at GSO_SparkMain.java:213
+2017-04-06 00:19:34 INFO  DAGScheduler:54 - Got job 1 (collect at GSO_SparkMain.java:213) with 4 output partitions
+2017-04-06 00:19:34 INFO  DAGScheduler:54 - Final stage: ResultStage 1 (collect at GSO_SparkMain.java:213)
+2017-04-06 00:19:34 INFO  DAGScheduler:54 - Parents of final stage: List()
+2017-04-06 00:19:34 INFO  DAGScheduler:54 - Missing parents: List()
+2017-04-06 00:19:34 INFO  DAGScheduler:54 - Submitting ResultStage 1 (MapPartitionsRDD[4] at map at GSO_SparkMain.java:212), which has no missing parents
+2017-04-06 00:19:34 INFO  MemoryStore:54 - Block broadcast_3 stored as values in memory (estimated size 1789.0 KB, free 1984.2 MB)
+2017-04-06 00:19:34 INFO  MemoryStore:54 - Block broadcast_3_piece0 stored as bytes in memory (estimated size 1195.0 KB, free 1983.0 MB)
+2017-04-06 00:19:34 INFO  BlockManagerInfo:54 - Added broadcast_3_piece0 in memory on 192.168.56.1:61529 (size: 1195.0 KB, free: 1987.5 MB)
+2017-04-06 00:19:34 INFO  SparkContext:54 - Created broadcast 3 from broadcast at DAGScheduler.scala:996
+2017-04-06 00:19:34 INFO  DAGScheduler:54 - Submitting 4 missing tasks from ResultStage 1 (MapPartitionsRDD[4] at map at GSO_SparkMain.java:212)
+2017-04-06 00:19:34 INFO  TaskSchedulerImpl:54 - Adding task set 1.0 with 4 tasks
+2017-04-06 00:19:34 WARN  TaskSetManager:66 - Stage 1 contains a task of very large size (167 KB). The maximum recommended task size is 100 KB.
+2017-04-06 00:19:34 INFO  TaskSetManager:54 - Starting task 0.0 in stage 1.0 (TID 4, localhost, executor driver, partition 0, PROCESS_LOCAL, 171151 bytes)
+2017-04-06 00:19:34 INFO  TaskSetManager:54 - Starting task 1.0 in stage 1.0 (TID 5, localhost, executor driver, partition 1, PROCESS_LOCAL, 171151 bytes)
+2017-04-06 00:19:34 INFO  TaskSetManager:54 - Starting task 2.0 in stage 1.0 (TID 6, localhost, executor driver, partition 2, PROCESS_LOCAL, 171151 bytes)
+2017-04-06 00:19:34 INFO  TaskSetManager:54 - Starting task 3.0 in stage 1.0 (TID 7, localhost, executor driver, partition 3, PROCESS_LOCAL, 171151 bytes)
+2017-04-06 00:19:34 INFO  Executor:54 - Running task 0.0 in stage 1.0 (TID 4)
+2017-04-06 00:19:34 INFO  Executor:54 - Running task 3.0 in stage 1.0 (TID 7)
+2017-04-06 00:19:34 INFO  Executor:54 - Running task 2.0 in stage 1.0 (TID 6)
+2017-04-06 00:19:34 INFO  Executor:54 - Running task 1.0 in stage 1.0 (TID 5)
+2017-04-06 00:19:34 INFO  BlockManager:54 - Found block rdd_2_1 locally
+2017-04-06 00:19:34 INFO  BlockManager:54 - Found block rdd_2_2 locally
+2017-04-06 00:19:34 INFO  BlockManager:54 - Found block rdd_2_3 locally
+2017-04-06 00:19:34 INFO  BlockManager:54 - Found block rdd_2_0 locally
+2017-04-06 00:34:42 INFO  GSO_SparkMain:103 - Using the following configuration for this execution: GSOConfig [sparkMaster=null, testRun=1, swarmSize=10000, dimension=2, maxIteration=200, peaksNo=8, benchName=CF4, p_const=0.4, gamma=0.6, B=0.08, nt=5.0, step=0.03, l0=5.0, r0=0.6, rs=0.6, pathy=input/, noOfNOdes=0, maxReducersPerNode=0, maxMappersPerNode=0, reducersThreshold=0.5]
+2017-04-06 00:34:42 INFO  SparkContext:54 - Running Spark version 2.1.0
+2017-04-06 00:34:42 ERROR SparkContext:91 - Error initializing SparkContext.
+org.apache.spark.SparkException: A master URL must be set in your configuration
+	at org.apache.spark.SparkContext.<init>(SparkContext.scala:379)
+	at org.apache.spark.api.java.JavaSparkContext.<init>(JavaSparkContext.scala:58)
+	at com.ndsu.spark.GSO_Spark.GSO_SparkMain.execute(GSO_SparkMain.java:111)
+	at com.ndsu.spark.GSO_Spark.GSO_SparkMain.main(GSO_SparkMain.java:86)
+2017-04-06 00:34:42 INFO  SparkContext:54 - Successfully stopped SparkContext
+2017-04-06 00:34:51 INFO  GSO_SparkMain:103 - Using the following configuration for this execution: GSOConfig [sparkMaster=null, testRun=1, swarmSize=10000, dimension=2, maxIteration=200, peaksNo=8, benchName=CF4, p_const=0.4, gamma=0.6, B=0.08, nt=5.0, step=0.03, l0=5.0, r0=0.6, rs=0.6, pathy=input/, noOfNOdes=0, maxReducersPerNode=0, maxMappersPerNode=0, reducersThreshold=0.5]
+2017-04-06 00:34:51 INFO  SparkContext:54 - Running Spark version 2.1.0
+2017-04-06 00:34:52 INFO  SecurityManager:54 - Changing view acls to: Goutham
+2017-04-06 00:34:52 INFO  SecurityManager:54 - Changing modify acls to: Goutham
+2017-04-06 00:34:52 INFO  SecurityManager:54 - Changing view acls groups to: 
+2017-04-06 00:34:52 INFO  SecurityManager:54 - Changing modify acls groups to: 
+2017-04-06 00:34:52 INFO  SecurityManager:54 - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(Goutham); groups with view permissions: Set(); users  with modify permissions: Set(Goutham); groups with modify permissions: Set()
+2017-04-06 00:34:52 INFO  Utils:54 - Successfully started service 'sparkDriver' on port 61686.
+2017-04-06 00:34:52 INFO  SparkEnv:54 - Registering MapOutputTracker
+2017-04-06 00:34:53 INFO  SparkEnv:54 - Registering BlockManagerMaster
+2017-04-06 00:34:53 INFO  BlockManagerMasterEndpoint:54 - Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+2017-04-06 00:34:53 INFO  BlockManagerMasterEndpoint:54 - BlockManagerMasterEndpoint up
+2017-04-06 00:34:53 INFO  DiskBlockManager:54 - Created local directory at C:\Users\Goutham\AppData\Local\Temp\blockmgr-888dac9c-ace2-4df5-a84c-ef1f46c7e8f9
+2017-04-06 00:34:53 INFO  MemoryStore:54 - MemoryStore started with capacity 1994.1 MB
+2017-04-06 00:34:53 INFO  SparkEnv:54 - Registering OutputCommitCoordinator
+2017-04-06 00:34:53 INFO  log:186 - Logging initialized @2003ms
+2017-04-06 00:34:53 INFO  Server:327 - jetty-9.2.z-SNAPSHOT
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@2a3c96e3{/jobs,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@15cafec7{/jobs/json,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5b444398{/jobs/job,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@cb191ca{/jobs/job/json,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@42f48531{/stages,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@a776e{/stages/json,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@792bbc74{/stages/stage,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@79145d5a{/stages/stage/json,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@1f2f9244{/stages/pool,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@4c4d27c8{/stages/pool/json,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@6821ea29{/storage,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@338494fa{/storage/json,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@505a9d7c{/storage/rdd,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@758c83d8{/storage/rdd/json,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@129b4fe2{/environment,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5af3a0f{/environment/json,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@19ae6bb{/executors,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@10993713{/executors/json,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@58359ebd{/executors/threadDump,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@24b6b8f6{/executors/threadDump/json,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@72cf2de5{/static,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@2bb7bd00{/,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5f031ebd{/api,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@4ee37ca3{/jobs/job/kill,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@45c8d09f{/stages/stage/kill,null,AVAILABLE}
+2017-04-06 00:34:53 INFO  ServerConnector:266 - Started ServerConnector@7f088c63{HTTP/1.1}{0.0.0.0:4040}
+2017-04-06 00:34:53 INFO  Server:379 - Started @2129ms
+2017-04-06 00:34:53 INFO  Utils:54 - Successfully started service 'SparkUI' on port 4040.
+2017-04-06 00:34:53 INFO  SparkUI:54 - Bound SparkUI to 0.0.0.0, and started at http://192.168.56.1:4040
+2017-04-06 00:34:53 INFO  Executor:54 - Starting executor ID driver on host localhost
+2017-04-06 00:34:53 INFO  Utils:54 - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 61707.
+2017-04-06 00:34:53 INFO  NettyBlockTransferService:54 - Server created on 192.168.56.1:61707
+2017-04-06 00:34:53 INFO  BlockManager:54 - Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+2017-04-06 00:34:53 INFO  BlockManagerMaster:54 - Registering BlockManager BlockManagerId(driver, 192.168.56.1, 61707, None)
+2017-04-06 00:34:53 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 192.168.56.1:61707 with 1994.1 MB RAM, BlockManagerId(driver, 192.168.56.1, 61707, None)
+2017-04-06 00:34:53 INFO  BlockManagerMaster:54 - Registered BlockManager BlockManagerId(driver, 192.168.56.1, 61707, None)
+2017-04-06 00:34:53 INFO  BlockManager:54 - Initialized BlockManager: BlockManagerId(driver, 192.168.56.1, 61707, None)
+2017-04-06 00:36:03 INFO  GSO_SparkMain:103 - Using the following configuration for this execution: GSOConfig [sparkMaster=null, testRun=1, swarmSize=10000, dimension=2, maxIteration=200, peaksNo=8, benchName=CF4, p_const=0.4, gamma=0.6, B=0.08, nt=5.0, step=0.03, l0=5.0, r0=0.6, rs=0.6, pathy=input/, noOfNOdes=0, maxReducersPerNode=0, maxMappersPerNode=0, reducersThreshold=0.5]
+2017-04-06 00:36:03 INFO  SparkContext:54 - Running Spark version 2.1.0
+2017-04-06 00:36:04 INFO  SecurityManager:54 - Changing view acls to: Goutham
+2017-04-06 00:36:04 INFO  SecurityManager:54 - Changing modify acls to: Goutham
+2017-04-06 00:36:04 INFO  SecurityManager:54 - Changing view acls groups to: 
+2017-04-06 00:36:04 INFO  SecurityManager:54 - Changing modify acls groups to: 
+2017-04-06 00:36:04 INFO  SecurityManager:54 - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(Goutham); groups with view permissions: Set(); users  with modify permissions: Set(Goutham); groups with modify permissions: Set()
+2017-04-06 00:36:04 INFO  Utils:54 - Successfully started service 'sparkDriver' on port 61739.
+2017-04-06 00:36:04 INFO  SparkEnv:54 - Registering MapOutputTracker
+2017-04-06 00:36:04 INFO  SparkEnv:54 - Registering BlockManagerMaster
+2017-04-06 00:36:05 INFO  BlockManagerMasterEndpoint:54 - Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+2017-04-06 00:36:05 INFO  BlockManagerMasterEndpoint:54 - BlockManagerMasterEndpoint up
+2017-04-06 00:36:05 INFO  DiskBlockManager:54 - Created local directory at C:\Users\Goutham\AppData\Local\Temp\blockmgr-0b44ffeb-e215-493b-85ef-219915d8e441
+2017-04-06 00:36:05 INFO  MemoryStore:54 - MemoryStore started with capacity 1994.1 MB
+2017-04-06 00:36:05 INFO  SparkEnv:54 - Registering OutputCommitCoordinator
+2017-04-06 00:36:05 INFO  log:186 - Logging initialized @1948ms
+2017-04-06 00:36:05 INFO  Server:327 - jetty-9.2.z-SNAPSHOT
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@2a3c96e3{/jobs,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@15cafec7{/jobs/json,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5b444398{/jobs/job,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@cb191ca{/jobs/job/json,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@42f48531{/stages,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@a776e{/stages/json,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@792bbc74{/stages/stage,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@79145d5a{/stages/stage/json,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@1f2f9244{/stages/pool,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@4c4d27c8{/stages/pool/json,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@6821ea29{/storage,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@338494fa{/storage/json,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@505a9d7c{/storage/rdd,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@758c83d8{/storage/rdd/json,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@129b4fe2{/environment,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5af3a0f{/environment/json,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@19ae6bb{/executors,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@10993713{/executors/json,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@58359ebd{/executors/threadDump,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@24b6b8f6{/executors/threadDump/json,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@72cf2de5{/static,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@2bb7bd00{/,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5f031ebd{/api,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@4ee37ca3{/jobs/job/kill,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@45c8d09f{/stages/stage/kill,null,AVAILABLE}
+2017-04-06 00:36:05 INFO  ServerConnector:266 - Started ServerConnector@192d74fb{HTTP/1.1}{0.0.0.0:4040}
+2017-04-06 00:36:05 INFO  Server:379 - Started @2076ms
+2017-04-06 00:36:05 INFO  Utils:54 - Successfully started service 'SparkUI' on port 4040.
+2017-04-06 00:36:05 INFO  SparkUI:54 - Bound SparkUI to 0.0.0.0, and started at http://192.168.56.1:4040
+2017-04-06 00:36:05 INFO  Executor:54 - Starting executor ID driver on host localhost
+2017-04-06 00:36:05 INFO  Utils:54 - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 61760.
+2017-04-06 00:36:05 INFO  NettyBlockTransferService:54 - Server created on 192.168.56.1:61760
+2017-04-06 00:36:05 INFO  BlockManager:54 - Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+2017-04-06 00:36:05 INFO  BlockManagerMaster:54 - Registering BlockManager BlockManagerId(driver, 192.168.56.1, 61760, None)
+2017-04-06 00:36:05 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 192.168.56.1:61760 with 1994.1 MB RAM, BlockManagerId(driver, 192.168.56.1, 61760, None)
+2017-04-06 00:36:05 INFO  BlockManagerMaster:54 - Registered BlockManager BlockManagerId(driver, 192.168.56.1, 61760, None)
+2017-04-06 00:36:05 INFO  BlockManager:54 - Initialized BlockManager: BlockManagerId(driver, 192.168.56.1, 61760, None)
+2017-04-06 00:36:05 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@f8908f6{/metrics/json,null,AVAILABLE}
+2017-04-06 00:36:06 INFO  GSO_SparkMain:204 - ******************Iteration: 0 Started***************************
+2017-04-06 00:36:06 INFO  GSO_SparkMain:205 - Mapping and Reducing started
+2017-04-06 00:36:07 INFO  MemoryStore:54 - Block broadcast_0 stored as values in memory (estimated size 1093.8 KB, free 1993.0 MB)
+2017-04-06 00:36:07 INFO  MemoryStore:54 - Block broadcast_0_piece0 stored as bytes in memory (estimated size 413.3 KB, free 1992.6 MB)
+2017-04-06 00:36:07 INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on 192.168.56.1:61760 (size: 413.3 KB, free: 1993.7 MB)
+2017-04-06 00:36:07 INFO  SparkContext:54 - Created broadcast 0 from broadcast at GSO_SparkMain.java:209
+2017-04-06 00:36:07 INFO  SparkContext:54 - Starting job: collect at GSO_SparkMain.java:213
+2017-04-06 00:36:07 INFO  DAGScheduler:54 - Got job 0 (collect at GSO_SparkMain.java:213) with 1 output partitions
+2017-04-06 00:36:07 INFO  DAGScheduler:54 - Final stage: ResultStage 0 (collect at GSO_SparkMain.java:213)
+2017-04-06 00:36:07 INFO  DAGScheduler:54 - Parents of final stage: List()
+2017-04-06 00:36:07 INFO  DAGScheduler:54 - Missing parents: List()
+2017-04-06 00:36:07 INFO  DAGScheduler:54 - Submitting ResultStage 0 (MapPartitionsRDD[2] at map at GSO_SparkMain.java:212), which has no missing parents
+2017-04-06 00:36:07 INFO  MemoryStore:54 - Block broadcast_1 stored as values in memory (estimated size 649.2 KB, free 1992.0 MB)
+2017-04-06 00:36:07 INFO  MemoryStore:54 - Block broadcast_1_piece0 stored as bytes in memory (estimated size 416.4 KB, free 1991.6 MB)
+2017-04-06 00:36:07 INFO  BlockManagerInfo:54 - Added broadcast_1_piece0 in memory on 192.168.56.1:61760 (size: 416.4 KB, free: 1993.3 MB)
+2017-04-06 00:36:07 INFO  SparkContext:54 - Created broadcast 1 from broadcast at DAGScheduler.scala:996
+2017-04-06 00:36:07 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 0 (MapPartitionsRDD[2] at map at GSO_SparkMain.java:212)
+2017-04-06 00:36:07 INFO  TaskSchedulerImpl:54 - Adding task set 0.0 with 1 tasks
+2017-04-06 00:36:07 WARN  TaskSetManager:66 - Stage 0 contains a task of very large size (650 KB). The maximum recommended task size is 100 KB.
+2017-04-06 00:36:07 INFO  TaskSetManager:54 - Starting task 0.0 in stage 0.0 (TID 0, localhost, executor driver, partition 0, PROCESS_LOCAL, 666151 bytes)
+2017-04-06 00:36:07 INFO  Executor:54 - Running task 0.0 in stage 0.0 (TID 0)
+2017-04-06 00:36:07 INFO  MemoryStore:54 - Block rdd_0_0 stored as values in memory (estimated size 898.5 KB, free 1990.7 MB)
+2017-04-06 00:36:07 INFO  BlockManagerInfo:54 - Added rdd_0_0 in memory on 192.168.56.1:61760 (size: 898.5 KB, free: 1992.4 MB)
+2017-04-06 00:48:44 INFO  GSO_SparkMain:103 - Using the following configuration for this execution: GSOConfig [sparkMaster=null, testRun=1, swarmSize=10000, dimension=2, maxIteration=200, peaksNo=8, benchName=CF4, p_const=0.4, gamma=0.6, B=0.08, nt=5.0, step=0.03, l0=5.0, r0=0.6, rs=0.6, pathy=input/, noOfNOdes=0, maxReducersPerNode=0, maxMappersPerNode=0, reducersThreshold=0.5]
+2017-04-06 00:48:45 INFO  SparkContext:54 - Running Spark version 2.1.0
+2017-04-06 00:48:45 ERROR SparkContext:91 - Error initializing SparkContext.
+org.apache.spark.SparkException: A master URL must be set in your configuration
+	at org.apache.spark.SparkContext.<init>(SparkContext.scala:379)
+	at org.apache.spark.api.java.JavaSparkContext.<init>(JavaSparkContext.scala:58)
+	at com.ndsu.spark.GSO_Spark.GSO_SparkMain.execute(GSO_SparkMain.java:111)
+	at com.ndsu.spark.GSO_Spark.GSO_SparkMain.main(GSO_SparkMain.java:86)
+2017-04-06 00:48:45 INFO  SparkContext:54 - Successfully stopped SparkContext
+2017-04-06 00:49:07 INFO  GSO_SparkMain:103 - Using the following configuration for this execution: GSOConfig [sparkMaster=null, testRun=1, swarmSize=10000, dimension=2, maxIteration=200, peaksNo=8, benchName=CF4, p_const=0.4, gamma=0.6, B=0.08, nt=5.0, step=0.03, l0=5.0, r0=0.6, rs=0.6, pathy=input/, noOfNOdes=0, maxReducersPerNode=0, maxMappersPerNode=0, reducersThreshold=0.5]
+2017-04-06 00:49:07 INFO  SparkContext:54 - Running Spark version 2.1.0
+2017-04-06 00:49:08 INFO  SecurityManager:54 - Changing view acls to: Goutham
+2017-04-06 00:49:08 INFO  SecurityManager:54 - Changing modify acls to: Goutham
+2017-04-06 00:49:08 INFO  SecurityManager:54 - Changing view acls groups to: 
+2017-04-06 00:49:08 INFO  SecurityManager:54 - Changing modify acls groups to: 
+2017-04-06 00:49:08 INFO  SecurityManager:54 - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(Goutham); groups with view permissions: Set(); users  with modify permissions: Set(Goutham); groups with modify permissions: Set()
+2017-04-06 00:49:08 INFO  Utils:54 - Successfully started service 'sparkDriver' on port 61871.
+2017-04-06 00:49:08 INFO  SparkEnv:54 - Registering MapOutputTracker
+2017-04-06 00:49:08 INFO  SparkEnv:54 - Registering BlockManagerMaster
+2017-04-06 00:49:08 INFO  BlockManagerMasterEndpoint:54 - Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+2017-04-06 00:49:08 INFO  BlockManagerMasterEndpoint:54 - BlockManagerMasterEndpoint up
+2017-04-06 00:49:08 INFO  DiskBlockManager:54 - Created local directory at C:\Users\Goutham\AppData\Local\Temp\blockmgr-4ec1760e-7125-4132-aaa1-a1f287478346
+2017-04-06 00:49:08 INFO  MemoryStore:54 - MemoryStore started with capacity 1994.1 MB
+2017-04-06 00:49:08 INFO  SparkEnv:54 - Registering OutputCommitCoordinator
+2017-04-06 00:49:08 INFO  log:186 - Logging initialized @1917ms
+2017-04-06 00:49:09 INFO  Server:327 - jetty-9.2.z-SNAPSHOT
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@2a3c96e3{/jobs,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@15cafec7{/jobs/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5b444398{/jobs/job,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@cb191ca{/jobs/job/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@42f48531{/stages,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@a776e{/stages/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@792bbc74{/stages/stage,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@79145d5a{/stages/stage/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@1f2f9244{/stages/pool,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@4c4d27c8{/stages/pool/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@6821ea29{/storage,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@338494fa{/storage/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@505a9d7c{/storage/rdd,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@758c83d8{/storage/rdd/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@129b4fe2{/environment,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5af3a0f{/environment/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@19ae6bb{/executors,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@10993713{/executors/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@58359ebd{/executors/threadDump,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@24b6b8f6{/executors/threadDump/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@72cf2de5{/static,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@2bb7bd00{/,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@5f031ebd{/api,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@4ee37ca3{/jobs/job/kill,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@45c8d09f{/stages/stage/kill,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  ServerConnector:266 - Started ServerConnector@192d74fb{HTTP/1.1}{0.0.0.0:4040}
+2017-04-06 00:49:09 INFO  Server:379 - Started @2037ms
+2017-04-06 00:49:09 INFO  Utils:54 - Successfully started service 'SparkUI' on port 4040.
+2017-04-06 00:49:09 INFO  SparkUI:54 - Bound SparkUI to 0.0.0.0, and started at http://192.168.56.1:4040
+2017-04-06 00:49:09 INFO  Executor:54 - Starting executor ID driver on host localhost
+2017-04-06 00:49:09 INFO  Utils:54 - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 61892.
+2017-04-06 00:49:09 INFO  NettyBlockTransferService:54 - Server created on 192.168.56.1:61892
+2017-04-06 00:49:09 INFO  BlockManager:54 - Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+2017-04-06 00:49:09 INFO  BlockManagerMaster:54 - Registering BlockManager BlockManagerId(driver, 192.168.56.1, 61892, None)
+2017-04-06 00:49:09 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 192.168.56.1:61892 with 1994.1 MB RAM, BlockManagerId(driver, 192.168.56.1, 61892, None)
+2017-04-06 00:49:09 INFO  BlockManagerMaster:54 - Registered BlockManager BlockManagerId(driver, 192.168.56.1, 61892, None)
+2017-04-06 00:49:09 INFO  BlockManager:54 - Initialized BlockManager: BlockManagerId(driver, 192.168.56.1, 61892, None)
+2017-04-06 00:49:09 INFO  ContextHandler:744 - Started o.s.j.s.ServletContextHandler@f8908f6{/metrics/json,null,AVAILABLE}
+2017-04-06 00:49:09 INFO  GSO_SparkMain:113 - ******************is Spark Master Set: local[4]
+2017-04-06 00:49:09 INFO  GSO_SparkMain:114 - **********************************Number of Executors: 1**********************************
+2017-04-06 00:49:10 INFO  GSO_SparkMain:204 - ******************Iteration: 0 Started***************************
+2017-04-06 00:49:10 INFO  GSO_SparkMain:205 - Mapping and Reducing started
+2017-04-06 00:49:10 INFO  MemoryStore:54 - Block broadcast_0 stored as values in memory (estimated size 1093.8 KB, free 1993.0 MB)
+2017-04-06 00:49:10 INFO  MemoryStore:54 - Block broadcast_0_piece0 stored as bytes in memory (estimated size 413.2 KB, free 1992.6 MB)
+2017-04-06 00:49:10 INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on 192.168.56.1:61892 (size: 413.2 KB, free: 1993.7 MB)
+2017-04-06 00:49:10 INFO  SparkContext:54 - Created broadcast 0 from broadcast at GSO_SparkMain.java:209
+2017-04-06 00:49:11 INFO  SparkContext:54 - Starting job: collect at GSO_SparkMain.java:213
+2017-04-06 00:49:11 INFO  DAGScheduler:54 - Got job 0 (collect at GSO_SparkMain.java:213) with 1 output partitions
+2017-04-06 00:49:11 INFO  DAGScheduler:54 - Final stage: ResultStage 0 (collect at GSO_SparkMain.java:213)
+2017-04-06 00:49:11 INFO  DAGScheduler:54 - Parents of final stage: List()
+2017-04-06 00:49:11 INFO  DAGScheduler:54 - Missing parents: List()
+2017-04-06 00:49:11 INFO  DAGScheduler:54 - Submitting ResultStage 0 (MapPartitionsRDD[2] at map at GSO_SparkMain.java:212), which has no missing parents
+2017-04-06 00:49:11 INFO  MemoryStore:54 - Block broadcast_1 stored as values in memory (estimated size 649.2 KB, free 1992.0 MB)
+2017-04-06 00:49:11 INFO  MemoryStore:54 - Block broadcast_1_piece0 stored as bytes in memory (estimated size 416.2 KB, free 1991.6 MB)
+2017-04-06 00:49:11 INFO  BlockManagerInfo:54 - Added broadcast_1_piece0 in memory on 192.168.56.1:61892 (size: 416.2 KB, free: 1993.3 MB)
+2017-04-06 00:49:11 INFO  SparkContext:54 - Created broadcast 1 from broadcast at DAGScheduler.scala:996
+2017-04-06 00:49:11 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 0 (MapPartitionsRDD[2] at map at GSO_SparkMain.java:212)
+2017-04-06 00:49:11 INFO  TaskSchedulerImpl:54 - Adding task set 0.0 with 1 tasks
+2017-04-06 00:49:11 WARN  TaskSetManager:66 - Stage 0 contains a task of very large size (650 KB). The maximum recommended task size is 100 KB.
+2017-04-06 00:49:11 INFO  TaskSetManager:54 - Starting task 0.0 in stage 0.0 (TID 0, localhost, executor driver, partition 0, PROCESS_LOCAL, 666151 bytes)
+2017-04-06 00:49:11 INFO  Executor:54 - Running task 0.0 in stage 0.0 (TID 0)
