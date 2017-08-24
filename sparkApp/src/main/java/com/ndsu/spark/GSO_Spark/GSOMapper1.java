@@ -6,8 +6,10 @@ import java.util.Random;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.spark.Accumulator;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.broadcast.Broadcast;
+import org.apache.spark.util.LongAccumulator;
 
 import com.ndsu.spark.GSO_Spark.Beans.GSOConfig;
 import com.ndsu.spark.GSO_Spark.Beans.Worm;
@@ -23,12 +25,15 @@ public class GSOMapper1 implements Function<Worm, Worm>{
 	private GSOConfig gsoConfig;
 	List<Worm> swarm;
 	Broadcast<List<Worm>> brSwarm;
+	
+
 
 	
 	public GSOMapper1(GSOConfig gsoConfig, Broadcast<List<Worm>> brSwarm){
 	//	System.out.println("********************YO! I AM HERE*******************************************");
 		this.gsoConfig = gsoConfig;
 		this.swarm = brSwarm.getValue();
+
 	}
 
 	@Override
@@ -37,6 +42,9 @@ public class GSOMapper1 implements Function<Worm, Worm>{
 		//to find neighbors of the given worm
 	//	logger.setLevel(Level.DEBUG);
 //		logger.debug("************worm: "+worm.getID());
+//		System.out.println("**worm: "+worm.getID());
+//		double startsubtime = System.currentTimeMillis();
+
 		
 		List<Worm> neighborWorms = new ArrayList<Worm>();
 		for (Worm wormInSwarm : swarm){			
@@ -51,8 +59,11 @@ public class GSOMapper1 implements Function<Worm, Worm>{
 						&& worm.getluc() < wormInSwarm.getluc()) {
 					neighborWorms.add(wormInSwarm);
 				}
+//				accum.add(1);
+				
 			}
-			
+		}
+//			System.out.println("neighbor size "+neighborWorms.size());
 			if (neighborWorms.size()!= 0) {
 				double[] p = new double[neighborWorms.size()];
 				double acsum = 0;
@@ -86,10 +97,29 @@ public class GSOMapper1 implements Function<Worm, Worm>{
 			}
 
 			else {
-				worm.setNeightbourWorm(new Worm(new double[]{-1,-1}, -1, -1, -1, neighborWorms.size()));				
+				double[] pos = null;
+				if (gsoConfig.getDimension() ==2 )
+					pos = new double[]{-1,-1};
+				else if (gsoConfig.getDimension() ==3 )
+					pos = new double[]{-1,-1,-1};
+				else if (gsoConfig.getDimension() ==4 )
+					pos = new double[]{-1,-1,-1,-1};
+				else if (gsoConfig.getDimension() ==5 )
+					pos = new double[]{-1,-1,-1,-1,-1};
+				else if (gsoConfig.getDimension() ==6 )
+					pos = new double[]{-1,-1,-1,-1,-1,-1};
+				else if (gsoConfig.getDimension() ==7 )
+					pos = new double[]{-1,-1,-1,-1,-1,-1,-1};
+				else if (gsoConfig.getDimension() ==8 )
+					pos = new double[]{-1,-1,-1,-1,-1,-1,-1,-1};
+				worm.setNeightbourWorm(new Worm(pos, -1, -1, -1, neighborWorms.size()));				
 			}
 			
-		}
+		
+//		double endsubtime = System.currentTimeMillis();
+//		double diff = (endsubtime - startsubtime) / 1000;
+//		dacc1.add(diff);
+//		System.out.println("Time taken for execution mapper1 "  + " =" + diff + "\n");
 		return worm;
 	}
 

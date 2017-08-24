@@ -5,6 +5,7 @@ package com.ndsu.spark.GSO_Spark;
 //
 //import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.spark.Accumulator;
 import org.apache.spark.api.java.function.Function;
 //import org.apache.spark.util.AccumulatorV2;
 
@@ -24,17 +25,22 @@ public class GSOMapper2 implements Function<Worm, Worm>{
 	private GSOConfig gsoConfig;
 	private GSOBenchmark gsoBenchmark;
 //	private GSOUpdateLuciferen acSwarm;
+//	
+
 	
 	public GSOMapper2(GSOConfig gsoConfig, GSOBenchmark gsoBenchmark){
 		this.gsoConfig = gsoConfig;
 		this.gsoBenchmark = gsoBenchmark;
 //		this.acSwarm = acSwarm;
+//		
 		
 	}
 
 	@Override
 	public Worm call(Worm worm) throws Exception {
 		//logger.setLevel(Level.DEBUG);
+		
+
 
 //		logger.debug("************worm: "+worm.getID());
 
@@ -62,10 +68,10 @@ public class GSOMapper2 implements Function<Worm, Worm>{
 
 			newworm.setPosition(newposition);
 
-			//double m = newworm.getRd() + B * (nt - nbsize);
-			//double max = Math.max(0.0, m);
-			//double newRd = Math.min(rs, max);
-			//newworm.setRd(newRd);
+//			double m = newworm.getRd() + gsoConfig.getB() * (gsoConfig.getNt() - nbsize);
+//			double max = Math.max(0.0, m);
+//			double newRd = Math.min(gsoConfig.getRs(), max);
+//			newworm.setRd(newRd);
 			newworm.setRd(newworm.getRd());
 
 		}
@@ -77,6 +83,8 @@ public class GSOMapper2 implements Function<Worm, Worm>{
 		newworm.setluc(l);
 
 //		acSwarm.add(newworm);
+
+//		System.out.println("Time taken for execution mapper2 "  + " =" + diff + "\n");
 		return newworm;
 	}
 

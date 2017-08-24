@@ -1,6 +1,8 @@
 package com.ndsu.spark.GSO_Spark.benchmark;
 
-public interface GSOBenchmark {
+import java.io.Serializable;
+
+public interface GSOBenchmark extends Serializable{
 	
 //	public double min =0;
 //	public double max =0;

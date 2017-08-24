@@ -47,8 +47,15 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 //import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.Function2;
+import org.apache.spark.api.java.function.MapFunction;
 //import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.broadcast.Broadcast;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Encoder;
+import org.apache.spark.sql.Encoders;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.RowFactory;
+//import org.apache.spark.sql.SparkSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -60,9 +67,11 @@ import com.ndsu.spark.GSO_Spark.Beans.Worm;
 import com.ndsu.spark.GSO_Spark.benchmark.CF4;
 import com.ndsu.spark.GSO_Spark.benchmark.GSOBenchmark;
 import com.ndsu.spark.GSO_Spark.utils.GSOBenchmarkHelper;
-import com.sun.tools.javac.code.Attribute.Array;
+//import com.sun.tools.javac.code.Attribute.Array;
 //import com.ndsu.spark.sparkApp.Mappers;
 //import com.ndsu.spark.sparkApp.NeighborMapper;
+
+import scala.Function1;
 
 public class GSO_SparkMain {
 
@@ -70,7 +79,7 @@ public class GSO_SparkMain {
 	private static HashMap<String, GSOConfig> gsoConfigMap;
 	private static GSOConfig gsoConfig;
 	// static WormAccumulator wormaccum = new WormAccumulator();
-	static CF4 cf4benchmark;
+	static GSOBenchmark benchmark;
 	// private static GSOUpdateLuciferen gsoUpdateLuc;
 	// private static int
 
@@ -104,20 +113,25 @@ public class GSO_SparkMain {
 
 		// System.setProperty("hadoop.home.dir", "D:\\NDSU\\DrSimones_Lab");
 
-		SparkConf sparkConf = new SparkConf().setAppName("GSO_Spark");//.setMaster("local[4]");
-		sparkConf.set("spark.default.parallelism", sparkConf.get("spark.executor.instances", "1"));
-
+		SparkConf sparkConf = new SparkConf().setAppName("GSO_Spark")
+				.setMaster("local[4]");
+//		sparkConf.set("spark.default.parallelism", sparkConf.get("spark.executor.instances", "4"));
+		
 		
 		JavaSparkContext sc = new JavaSparkContext(sparkConf);
-		
+
+		 
+//		 spark
+		sc.setCheckpointDir("checkpoint");
 		logger.info("******************is Spark Master Set: " + sparkConf.get("spark.master"));
 		logger.info("**********************************Number of Executors: "
-				+ sc.getConf().get("spark.default.parallelism") + "**********************************");
-		// System.out.println();
+				+ sparkConf.getInt("spark.executor.instances", 1) + "**********************************");
+		 System.out.println("**********************************Number of Executors: "
+					+ sparkConf.getInt("spark.executor.instances", 1) + "**********************************");
 
 		// sc.hadoopConfiguration().set("dfs.nameservices","hadooptest");
 
-		String peaksFile = "resources/peaksfileCF4D" + gsoConfig.getDimension() + ".txt";
+		String peaksFile = "resources/"+gsoConfig.getBenchName()+"/peaksfile" + gsoConfig.getDimension()+".txt";
 
 		
 
@@ -133,41 +147,41 @@ public class GSO_SparkMain {
 				+ "noNodes" + sc.getConf().getInt("spark.executor.instances", 1) + "_"
 				+ new SimpleDateFormat("MM_dd_yyyy_h_m_s").format(new Date());
 		
-		List<Worm> swarm = createInitialSwarm(gsoConfig.getSwarmSize(), gsoConfig.getDimension());
+		List<Worm> swarm = createInitialSwarm(gsoConfig);
 //		writeSwarmwithoutnb(swarm, );
 
 		boolean success = (new File(outputDirectories)).mkdirs();
-		boolean success1 = (new File(swarmInFolder)).mkdirs();
+		//boolean success1 = (new File(swarmInFolder)).mkdirs();
 		if (success) {
 			System.out.println("Directories: " + outputDirectories + " created");
 		}
-		if (success1){
-			System.out.println("Directories: " + outputDirectories + " created");
-		}
+//		if (success1){
+//			System.out.println("Directories: " + outputDirectories + " created");
+//		}
 
 		// double start = System.currentTimeMillis();
 		double startsubtime = System.currentTimeMillis();
 		double sumdiff = 0;
 		// No idea whats happening here?
-		GSOBenchmark bench = GSOBenchmarkHelper.getBenchMark(gsoConfig.getBenchName());
-		cf4benchmark = (CF4) bench;
-		cf4benchmark.setO_(
-				loadOptima("resources/data/CF4_M_D" + gsoConfig.getDimension() + "_opt.dat", gsoConfig.getDimension()));
-		cf4benchmark.setM_(loadRotationMatrix("resources/data/CF4_M_D" + gsoConfig.getDimension() + ".dat",
-				gsoConfig.getDimension()));
+		GSOBenchmark benchmark = new GSOBenchmarkHelper(gsoConfig.getBenchName()).getBenchMark();
+	//	benchmark = new GSOBenchmarkHelper(gsoConfig.getBenchName());
+//		benchmark.setO_(
+//				loadOptima("resources/data/CF4_M_D" + gsoConfig.getDimension() + "_opt.dat", gsoConfig.getDimension()));
+//		benchmark.setM_(loadRotationMatrix("resources/data/CF4_M_D" + gsoConfig.getDimension() + ".dat",
+//				gsoConfig.getDimension()));
 		for (Worm worm : swarm) {
 			// bench = new GSOBenchmark(gsoConfig.getBenchName(),
 			// worm.getposition());
 			// double Jx = bench.getr();
-			worm.setJx(cf4benchmark.evaluate(worm.getposition()));
+			worm.setJx(benchmark.evaluate(worm.getposition()));
 			double l = (1 - gsoConfig.getP_const()) * worm.getluc() + gsoConfig.getGamma() * worm.getJx();
 			worm.setluc((1 - gsoConfig.getP_const()) * worm.getluc() + gsoConfig.getGamma() * worm.getJx());
 		}
 
-		cf4benchmark.setM_(loadRotationMatrix("resources/data/CF4_M_D" + gsoConfig.getDimension() + ".dat",
-				gsoConfig.getDimension()));
-		cf4benchmark.setO_(
-				loadOptima("resources/data/CF4_M_D" + gsoConfig.getDimension() + "_opt.dat", gsoConfig.getDimension()));
+//		benchmark.setM_(loadRotationMatrix("resources/data/CF4_M_D" + gsoConfig.getDimension() + ".dat",
+//				gsoConfig.getDimension()));
+//		benchmark.setO_(
+//				loadOptima("resources/data/CF4_M_D" + gsoConfig.getDimension() + "_opt.dat", gsoConfig.getDimension()));
 
 		Results[] result = new Results[gsoConfig.getDimension()];
 		double[][] resultPerIteration = new double[gsoConfig.getSwarmSize()][gsoConfig.getDimension()];
@@ -184,20 +198,9 @@ public class GSO_SparkMain {
 
 		FileWriter fstream3 = new FileWriter(outputDirectories + "/timeinfo.txt");
 		BufferedWriter outtime = new BufferedWriter(fstream3);
-		// List<Worm>
-		// Broadcast<List<Worm>> brCenters = null;
-		//JavaRDD<Worm> initialRDD;
+	
+		
 
-		/**
-		 * Accumulators
-		 */
-		// WormAccumulator wormaccum = new WormAccumulator();
-		// sc.sc().register(wormaccum);
-
-		JavaRDD<Worm> initialRDD;// = sc.parallelize(swarm);
-		//initialRDD.cache();
-//		JavaRDD<Worm> firstMapperRDD;
-		//JavaRDD<Worm> secondMapperRDD;
 		while (iteration < gsoConfig.getMaxIteration()) {
 
 			startsubtime = System.currentTimeMillis();
@@ -205,30 +208,22 @@ public class GSO_SparkMain {
 			logger.info("Mapping and Reducing started");
 //			if (iteration!=0)
 //				swarm = readSwarm(swarmInFolder+"\\swarm"+iteration);
+			JavaRDD<Worm> initialRDD = sc.parallelize(swarm);
 
 			Broadcast<List<Worm>> brCenters = sc.broadcast(swarm);
-			initialRDD = sc.parallelize(swarm, sparkConf.getInt("spark.executor.instances", 1))
-					.map(new GSOMapper1(gsoConfig, brCenters)).cache()
-					.map(new GSOMapper2(gsoConfig, cf4benchmark)).cache();
-			swarm = initialRDD.collect();
-//			firstMapperRDD = initialRDD.map(new GSOMapper1(gsoConfig, brCenters));
-//			firstMapperRDD.cache();
-//			initialRDD= firstMapperRDD.map(new GSOMapper2(gsoConfig, cf4benchmark));
-//			initialRDD.cache();
-//			swarm = initialRDD.collect();
-//			initialRDD.saveAsTextFile(swarmInFolder+"\\swarm"+(iteration+1));
-//			initialRDD.cache().map(new GSOMapper1(gsoConfig, brCenters)).cache()
-//			.map(new GSOMapper2(gsoConfig, cf4benchmark)).cache()
-//			.saveAsTextFile(swarmInFolder+"\\swarm"+(iteration+1));
-			//sc.wholeTextFiles(outputDirectories+"\\test"+iteration);
 			
-			// initialRDD.map(new GSOMapper1(gsoConfig, brCenters)).foreach(x ->
-			// wormaccum.add(x));
-			// gsoUpdateLuc = new GSOUpdateLuciferen(gsoConfig, cf4benchmark,
-			// wormaccum).;
-			// initialRDD.map(new GSOMapper1(gsoConfig,
-			// brCenters)).foreach(gsoUpdateLuc);
-			// System.out.println("**************************\n***********************"+wormaccum.value().size());
+//			Dataset<Row> wormDataSet = spark.createDataFrame(swarm, Worm.class);
+					
+	
+			initialRDD = initialRDD.map(new GSOMapper1(gsoConfig, brCenters))
+					.map(new GSOMapper2(gsoConfig, benchmark));
+			swarm = initialRDD.collect();
+//			initialRDD.saveAsObjectFile(swarmInFolder+(iteration+1));
+		//	initialRDD.checkpoint();
+			initialRDD.unpersist();
+//			brCenters.unpersist();
+			brCenters.destroy();
+			
 
 			System.out.println("************Number of worms: " + swarm.size() + "************************");
 			logger.info("Mapping and Reducing Ended");
@@ -251,13 +246,14 @@ public class GSO_SparkMain {
 			outtime.flush();
 			iteration++;
 			System.gc();
+			Thread.sleep(2000);
+//			sc.che
 //			sc.c
-//			 brCenters.destroy();
 			logger.info("******************Iteration: " + iteration + " Ended***************************");
 
 		}
 		if (iteration == (gsoConfig.getMaxIteration())) {
-			writeResults(outputDirectories, result);
+//			writeResults(outputDirectories, result);
 			outtime.append("===============================================================\n");
 			outtime.append("Total Time for " + gsoConfig.getMaxIteration() + " Iteartions:" + sumdiff + " (s)\n");
 			outtime.append("Average Time per iteration :" + (sumdiff / gsoConfig.getMaxIteration()) + " (s)\n");
@@ -273,7 +269,7 @@ public class GSO_SparkMain {
 
 	// TODO
 	// Deletion of this method is required later
-	private static HashMap<String, GSOConfig> initialize() throws JsonSyntaxException, JsonIOException, IOException {
+	public static HashMap<String, GSOConfig> initialize() throws JsonSyntaxException, JsonIOException, IOException {
 		String sLine = "";
 		try (BufferedReader br = new BufferedReader(new FileReader("resources/config.json"))) {
 
@@ -313,21 +309,21 @@ public class GSO_SparkMain {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Worm> createInitialSwarm(int swarmSize, int dimension) throws Exception {
+	public static List<Worm> createInitialSwarm(GSOConfig gsoConfig) throws Exception {
 		// Worm swarm[] = new Worm[swarmSize];
 		List<Worm> swarm = new LinkedList<Worm>();
 		Random aRandom = new Random();
 		GSOBenchmark bench;
-		bench = GSOBenchmarkHelper.getBenchMark(gsoConfig.getBenchName());
+		bench = new GSOBenchmarkHelper(gsoConfig.getBenchName()).getBenchMark();
 		double aStart = bench.getMin();
 		double aEnd = bench.getMax();
 		double range = (double) aEnd - (double) aStart;
 
-		for (int i = 0; i < swarmSize; i++) {
+		for (int i = 0; i < gsoConfig.getSwarmSize(); i++) {
 			Worm temp = new Worm();
 			// random position
-			double position[] = new double[dimension];
-			for (int a = 0; a < dimension; a++) {
+			double position[] = new double[gsoConfig.getDimension()];
+			for (int a = 0; a < gsoConfig.getDimension(); a++) {
 				double fraction = (double) (range * aRandom.nextDouble());
 				double randomNumber = (double) (fraction + aStart);
 				position[a] = randomNumber;

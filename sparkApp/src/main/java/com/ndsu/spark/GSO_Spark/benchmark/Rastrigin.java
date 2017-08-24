@@ -8,10 +8,10 @@ package com.ndsu.spark.GSO_Spark.benchmark;
  * @version 1.0
  */
 
-public class Rastrigin{
+public class Rastrigin implements GSOBenchmark{
 
-	private double min = -5.12;
-	private double max = 5.12;
+	private double min = -1;
+	private double max = 1;
 
 	/**
 	 * Evaluates a particles at a given position
