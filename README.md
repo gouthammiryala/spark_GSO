@@ -1,1 +1,1 @@
-# spark_GSO
+# SPARK - Glowworm Swarm Optimization Algorithm
